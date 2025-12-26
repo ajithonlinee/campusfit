@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Apply database migrations
 python manage.py migrate
+
+# --- ADD THIS LINE TO RUN THE ADMIN SCRIPT ---
+python create_superuser.py
