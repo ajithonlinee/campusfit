@@ -8,10 +8,10 @@ from django.db.models import Sum, F, ExpressionWrapper, fields
 from django.db.models.functions import Cast
 from django.db.models.expressions import RawSQL
 from django.contrib import messages
-from django.db import IntegrityError
+from django.db import IntegrityError, connection # <--- Added connection import
 from .forms import LearnerSignUpForm, MentorSignUpForm
 
-# --- ML IMPORTS: Smart Recommendation System ---
+# --- ML IMPORTS ---
 try:
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import linear_kernel
@@ -112,8 +112,16 @@ def logout_view(request):
     return redirect('home')
 
 def get_end_time_expression():
+    # --- FIX: Check database type to prevent syntax errors ---
+    if connection.vendor == 'sqlite':
+        # SQLite syntax: datetime(col, '+30 minutes')
+        sql = "datetime(session_date, '+' || duration || ' minutes')"
+    else:
+        # MySQL/Postgres syntax: col + INTERVAL 30 MINUTE
+        sql = "session_date + INTERVAL duration MINUTE"
+        
     return ExpressionWrapper(
-        RawSQL("session_date + INTERVAL duration MINUTE", []),
+        RawSQL(sql, []),
         output_field=fields.DateTimeField()
     )
 
@@ -122,16 +130,12 @@ def get_end_time_expression():
 def learner_dashboard_view(request):
     learner = request.user.learner
     
-    # 1. AI Recommendation System
     all_mentors = Mentor.objects.filter(status='approved')
     recommended_mentors = []
 
     if all_mentors.exists() and ML_AVAILABLE:
         try:
-            # Prepare textual data: Combine specialization + bio
             mentor_descriptions = [f"{m.specialization} {m.bio}" for m in all_mentors]
-            
-            # Expanded description for learner goals to improve matching
             goal_map = {
                 'weight_loss': "Help me lose weight and burn fat cardio high intensity workout diet",
                 'muscle_gain': "Build muscle mass hypertrophy strength lifting bodybuilding",
@@ -140,33 +144,25 @@ def learner_dashboard_view(request):
                 'sports': "Sports performance agility speed athletic training competition",
                 'rehabilitation': "Injury recovery rehabilitation physiotherapy safe low impact",
             }
-            # Get learner's goal description
             learner_query = goal_map.get(learner.goal, learner.goal)
             mentor_descriptions.append(learner_query)
 
-            # Calculate TF-IDF & Cosine Similarity
             tfidf = TfidfVectorizer(stop_words='english')
             tfidf_matrix = tfidf.fit_transform(mentor_descriptions)
-            
-            # Compare learner (last item) vs all mentors (all previous items)
             cosine_sim = linear_kernel(tfidf_matrix[-1], tfidf_matrix[:-1])
             
-            # Sort mentors by similarity score
             sim_scores = list(enumerate(cosine_sim[0]))
             sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
             
-            # Get top 3
             for i, score in sim_scores[:3]:
                 recommended_mentors.append(all_mentors[i])
         except Exception as e:
             print(f"ML Recommendation Error: {e}")
-            # Fallback to basic keyword matching if ML fails
             recommended_mentors = Mentor.objects.filter(
                 status='approved', 
                 specialization__icontains=learner.goal.replace('_', ' ')
             ).order_by('-points')[:3]
     else:
-        # Fallback if Scikit-learn not installed
         recommended_mentors = Mentor.objects.filter(
             status='approved', 
             specialization__icontains=learner.goal.replace('_', ' ')
@@ -212,7 +208,6 @@ def booking_view(request):
 
 @login_required
 def book_session_view(request, mentor_id):
-    # Security: Ensure user is a learner
     if not hasattr(request.user, 'learner'):
         messages.error(request, "Only registered learners can book sessions.")
         return redirect('home')
@@ -313,11 +308,9 @@ def safety_quiz_view(request):
 @login_required
 def chat_view(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
-    # Security: Ensure user is part of the booking
     if request.user != booking.learner.user and request.user != booking.mentor.user:
         return redirect('home')
     
-    # Identify the "other" person for the header
     if request.user == booking.learner.user:
         other_user = booking.mentor.user
     else:
