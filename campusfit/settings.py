@@ -11,11 +11,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-your-secret-key-here'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Set to True only if you are testing locally, set to False for Render deployment
 DEBUG = False 
 
-# Allow all hosts (easier for Render's dynamic URLs)
+# Allow all hosts (Required for Render)
 ALLOWED_HOSTS = ['*']
+
+# --- FIX FOR CSRF ERROR ---
+# We must explicitly trust the Render URL for form submissions to work over HTTPS
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -63,7 +68,7 @@ WSGI_APPLICATION = 'campusfit.wsgi.application'
 ASGI_APPLICATION = 'campusfit.asgi.application' 
 
 # Database
-# Using SQLite for the free deployment to avoid complex setup
+# Using SQLite for the free deployment
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -102,7 +107,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Enable WhiteNoise compression and caching
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media Files (User uploads like form check videos/images)
+# Media Files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
