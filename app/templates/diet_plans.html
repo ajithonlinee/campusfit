@@ -1,0 +1,1509 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFit — Personalized Workouts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4D44DB;
+            --accent: #FF6584;
+            --light: #F8F9FA;
+            --dark: #343A40;
+            --gray: #6c757d;
+            --darker: #212529;
+            --success: #28A745;
+            --info: #17A2B8;
+            --warning: #FFC107;
+            --danger: #DC3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff4d6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 101, 132, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        main {
+            padding: 40px 0;
+        }
+        
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .selection-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .selection-title i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .selection-title h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            background: white;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234D44DB'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .card-title h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .level-badge {
+            background: rgba(108, 99, 255, 0.1);
+            color: var(--secondary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+        }
+        
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.15);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            background: var(--darker);
+        }
+        
+        .video-thumbnail iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-info {
+            padding: 15px;
+        }
+        
+        .video-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .video-info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-item ul {
+            list-style-type: none;
+        }
+        
+        .info-item li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .info-item li::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .diet-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .diet-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .diet-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .diet-tab:hover:not(.active) {
+            color: var(--secondary);
+        }
+        
+        .diet-content {
+            display: none;
+        }
+        
+        .diet-content.active {
+            display: block;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 12px;
+            border: 2px dashed rgba(108, 99, 255, 0.2);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .empty-state p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        footer {
+            background: var(--darker);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+            color: white;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* Pulse animation for empty state */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Loading spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(108, 99, 255, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <div>
+                        <h1>CampusFit</h1>
+                        <div class="tagline">Personalized Workouts for Students</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="selection-panel fade-in">
+            <div class="selection-title">
+                <i class="fas fa-sliders-h"></i>
+                <h2>Customize Your Workout Plan</h2>
+            </div>
+            
+            <div class="form-group fade-in delay-1">
+                <label for="fitnessGoal"><i class="fas fa-bullseye"></i> Fitness Goal</label>
+                <select id="fitnessGoal">
+                    <option value="">Select Your Goal</option>
+                    <option value="weightLoss">Weight Loss / Fat Loss</option>
+                    <option value="muscleGain">Muscle Gain / Strength</option>
+                    <option value="generalFitness">General Fitness / Maintenance</option>
+                    <option value="endurance">Endurance & Stamina</option>
+                    <option value="flexibility">Flexibility & Mobility</option>
+                </select>
+            </div>
+
+            <div class="form-group fade-in delay-2">
+                <label for="workoutCategory"><i class="fas fa-running"></i> Workout Category</label>
+                <select id="workoutCategory">
+                    <option value="">Select Workout</option>
+                </select>
+            </div>
+
+            <div class="form-group fade-in delay-3">
+                <label for="experienceLevel"><i class="fas fa-signal"></i> Experience Level</label>
+                <select id="experienceLevel">
+                    <option value="">Select Level</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+        </section>
+
+        <div id="tutorialContainer">
+            <div class="empty-state fade-in delay-4">
+                <i class="fas fa-heartbeat pulse"></i>
+                <h3>Let's Get Started!</h3>
+                <p>Select your fitness goal, preferred workout type, and experience level to see personalized workout recommendations.</p>
+            </div>
+        </div>
+
+        <div id="dietPlan"></div>
+        <div id="commonInjuries"></div>
+        <div id="treatmentTips"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                
+               
+                <div class="copyright">
+                    &copy; 2025 CampusFit. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Complete workout database with all video links
+        const workoutDatabase = {
+            weightLoss: {
+                "hiit": {
+                    beginner: [
+                        {name: "Beginner HIIT", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Low-impact introduction"},
+                        {name: "Fat Burning HIIT", embed: "https://www.youtube.com/embed/8jPQjjsBbIc", desc: "Calorie torching workout"},
+                        {name: "No Equipment HIIT", embed: "https://www.youtube.com/embed/-hSma-BRzoo", desc: "Home-friendly routine"},
+                    ],
+                    intermediate: [
+                        {name: "Advanced HIIT", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Higher intensity"},
+                        {name: "Fat Blaster", embed: "https://www.youtube.com/embed/8jPQjjsBbIc", desc: "Max calorie burn"},
+                        {name: "Jump Rope HIIT", embed: "https://www.youtube.com/embed/-hSma-BRzoo", desc: "Cardio intensive"},
+                       
+                    ],
+                    advanced: [
+                        {name: "Extreme HIIT", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Maximum intensity"},
+                        {name: "Plyometric HIIT", embed: "https://www.youtube.com/embed/nmwgirgXLYM", desc: "Explosive jumps"},
+                        {name: "Battle Rope HIIT", embed: "https://www.youtube.com/embed/eozdVDA78K0", desc: "Upper body focus"}
+                    ]
+                },
+                "circuit-training": {
+                    beginner: [
+                        {name: "Beginner Circuit", embed: "https://www.youtube.com/embed/eozdVDA78K0", desc: "Full-body introduction"},
+                        {name: "Fat Burn Circuit", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Calorie torching"},
+                        {name: "Home Circuit", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "No equipment needed"},
+                    ],
+                    intermediate: [
+                        {name: "Intense Circuit", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Challenging full-body"},
+                        {name: "Cardio Circuit", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Heart-pumping"},
+                        {name: "Strength Circuit", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Build muscle while burning fat"},
+                        
+                    ],
+                    advanced: [
+                        {name: "Extreme Circuit", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Maximum intensity"},
+                        {name: "Competition Circuit", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Athlete-level"},
+                        {name: "Military Circuit", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Bootcamp style"}
+                    ]
+                },
+                "bodyweight-exercises": {
+                    beginner: [
+                        {name: "Basic Bodyweight", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Fundamental movements"},
+                        {name: "Beginner Routine", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Full body workout"},
+                        {name: "No Equipment", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Home exercises"},
+                        {name: "Mobility Focus", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Improve movement"}
+                    ],
+                    intermediate: [
+                        {name: "Intermediate Bodyweight", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "More challenging variations"},
+                        {name: "Bodyweight Strength", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Build muscle without weights"},
+                        {name: "Bodyweight HIIT", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Cardio with no equipment"},
+                        {name: "Balance Training", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Improve stability"}
+                    ],
+                    advanced: [
+                        {name: "Advanced Calisthenics", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Muscle-ups, levers"},
+                        {name: "Bodyweight Mastery", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Elite movements"},
+                        {name: "One Arm Pushups", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Extreme upper body"},
+                        {name: "Street Workout", embed: "https://www.youtube.com/embed/3VcKaXpzqRo", desc: "Outdoor training"}
+                    ]
+                }
+            },
+            muscleGain: {
+                "weightlifting": {
+                    beginner: [
+                        {name: "Beginner Weightlifting", embed: "https://www.youtube.com/embed/VL5Ab0T07e4", desc: "Basic barbell movements"},
+                        {name: "Full Body Routine", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Compound lifts"},
+                        {name: "Form Fundamentals", embed: "https://www.youtube.com/embed/3VcKaXpzqRo", desc: "Perfect your technique"}
+                    ],
+                    intermediate: [
+                        {name: "Intermediate Lifting", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Progressive overload"},
+                        {name: "5-Day Split", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Body part focus"},
+                        {name: "Powerbuilding", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Strength + size"},
+                    ],
+                    advanced: [
+                        {name: "Advanced Powerlifting", embed: "https://www.youtube.com/embed/VL5Ab0T07e4", desc: "Maximal strength"},
+                        {name: "Bodybuilding Split", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Aesthetics focus"},
+                        {name: "Westside Method", embed: "https://www.youtube.com/embed/3VcKaXpzqRo", desc: "Conjugate system"},
+                        
+                    ]
+                },
+                "resistance-band-work": {
+                    beginner: [
+                        {name: "Band Basics", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Introduction to bands"},
+                        {name: "Full Band Workout", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Total body"},
+                       
+                        {name: "Upper Body Focus", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Arms & back"}
+                    ],
+                    intermediate: [
+                        {name: "Band Strength", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Build muscle"},
+                        
+                        {name: "Band Power", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Explosive training"},
+                        {name: "Lower Body Focus", embed: "https://www.youtube.com/embed/8jPQjjsBbIc", desc: "Legs & glutes"}
+                    ],
+                    advanced: [
+                        {name: "Elite Band Training", embed: "https://www.youtube.com/embed/VL5Ab0T07e4", desc: "Maximum resistance"},
+                        {name: "Band Complexes", embed: "https://www.youtube.com/embed/8opcQdC-V-U", desc: "High intensity"},
+                        {name: "Band Bodybuilding", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Aesthetics focus"},
+                    
+                    ]
+                },
+                "compound-lifts": {
+                    beginner: [
+                        {name: "Big 3 Basics", embed: "https://www.youtube.com/embed/eozdVDA78K0", desc: "Squat, bench, deadlift"},
+                        {name: "Compound Intro", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Fundamental movements"},
+                        {name: "Strength Foundation", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Build base strength"},
+                        
+                    ],
+                    intermediate: [
+                        {name: "Power Compounds", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Increase strength"},
+                        {name: "Olympic Lifts", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Clean & jerk"},
+                        {name: "Advanced Compounds", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Variations"},
+                        {name: "Strength Focus", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Progressive overload"}
+                    ],
+                    advanced: [
+                        {name: "Maximal Lifts", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "1RM training"},
+                        {name: "Competition Prep", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Peaking program"},
+                        
+                        {name: "Power Focus", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Explosive strength"}
+                    ]
+                }
+            },
+            generalFitness: {
+                "functional-training": {
+                    beginner: [
+                        {name: "Functional Basics", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Daily movements"},
+                        {name: "Mobility Intro", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Improve movement"},
+                        {name: "Home Functional", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "No equipment"},
+                        {name: "Balance Start", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Core stability"}
+                    ],
+                    intermediate: [
+                        {name: "Functional Strength", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Real-world power"},
+                        {name: "Kettlebell Functional", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Dynamic moves"},
+                        {name: "Balance Training", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Core stability"},
+                        {name: "Sport-Specific", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Performance focus"}
+                    ],
+                    advanced: [
+                        {name: "Elite Functional", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Advanced patterns"},
+                        {name: "Complex Movements", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Integrated training"},
+                        {name: "Power Functional", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Explosive strength"},
+                        {name: "Full Body Challenge", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Advanced routine"}
+                    ]
+                },
+                "core-workouts": {
+                    beginner: [
+                        {name: "Core Basics", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Beginner abs"},
+                        {name: "Stability Intro", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Foundational work"},
+                        {name: "Gentle Core", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Low impact"},
+                       
+                    ],
+                    intermediate: [
+                        {name: "Core Strength", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Six-pack focus"},
+                        {name: "Rotational Power", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Sports performance"},
+                        {name: "Advanced Planks", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Challenging variations"}
+                    ],
+                    advanced: [
+                        {name: "Elite Core", embed: "https://www.youtube.com/embed/8jPQjjsBbIc", desc: "Gymnastic moves"},
+                        {name: "Core Endurance", embed: "https://www.youtube.com/embed/ml6cT4AZdqI", desc: "Long duration"},
+                        {name: "Extreme Abs", embed: "https://www.youtube.com/embed/nmwgirgXLYM", desc: "Maximum challenge"}
+                    ]
+                },
+                "light-cardio": {
+                    beginner: [
+                        {name: "Gentle Cardio", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Low intensity"},
+                        {name: "Walking Workout", embed: "https://www.youtube.com/embed/eozdVDA78K0", desc: "Beginner friendly"},
+                        {name: "Recovery Cardio", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Active rest"},
+                        
+                    ],
+                    intermediate: [
+                        {name: "Cardio Mix", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Varied intensity"},
+                        {name: "Endurance Base", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Build stamina"},
+                        {name: "Heart Health", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Cardiovascular focus"}
+                    ],
+                    advanced: [
+                        {name: "Efficient Cardio", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Max results"},
+                        {name: "Cardio for Athletes", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Performance focus"},
+                        {name: "Long Duration", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Marathon prep"},
+                        
+                    ]
+                },
+                "stretching": {
+                    beginner: [
+                        {name: "Basic Stretches", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Daily routine"},
+                        {name: "Flexibility Intro", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Gentle start"},
+                        {name: "Post-Workout", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Recovery focus"},
+                        {name: "Morning Routine", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Wake up stretch"}
+                    ],
+                    intermediate: [
+                        {name: "Deep Stretching", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Increased ROM"},
+                        {name: "Active Flexibility", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Strength + stretch"},
+                        {name: "Splits Training", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Middle splits"},
+                        {name: "Yoga Flow", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Connected movements"}
+                    ],
+                    advanced: [
+                        {name: "Contortion", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Extreme flexibility"},
+                        {name: "Weighted Stretching", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Advanced techniques"},
+                        {name: "Oversplits", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Beyond 180°"},
+                        {name: "Professional Routine", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Dancer's flexibility"}
+                    ]
+                }
+            },
+            endurance: {
+                "long-distance-running": {
+                    beginner: [
+                        {name: "Couch to 5K", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Beginner program"},
+                        {name: "Running Form", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Proper technique"},
+                        {name: "Breathing Basics", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Efficient oxygen"},
+                        {name: "First 5K", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Training plan"}
+                    ],
+                    intermediate: [
+                        {name: "Speed Work", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Tempo runs"},
+                        {name: "Hill Training", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Strength + stamina"},
+                        {name: "Half Marathon", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "13.1 mile prep"}
+                    ],
+                    advanced: [
+                        {name: "Marathon Prep", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "26.2 miles"},
+                        {name: "Ultra Running", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "50K+ training"},
+                        {name: "Race Strategy", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Competition plans"},
+                        {name: "Elite Training", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Sub-3 marathon"}
+                    ]
+                },
+                "cycling": {
+                    beginner: [
+                        {name: "Cycling Basics", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Getting started"},
+                        {name: "Form & Technique", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Efficient pedaling"},
+                        {name: "Beginner Rides", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Short distances"},
+                        {name: "Indoor Cycling", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Stationary bike"}
+                    ],
+                    intermediate: [
+                        {name: "Endurance Cycling", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Long rides"},
+                        {name: "Hill Climbing", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Elevation training"},
+                        {name: "Speed Work", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Interval training"},
+                        {name: "Century Prep", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "100 mile plan"}
+                    ],
+                    advanced: [
+                        {name: "Competition Prep", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Race strategy"},
+                        
+                        {name: "Time Trial", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Speed focus"},
+                        {name: "Stage Race", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Multi-day events"}
+                    ]
+                },
+                "swimming": {
+                    beginner: [
+                        {name: "Swim Basics", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "First strokes"},
+                        {name: "Freestyle Intro", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Front crawl"},
+                        {name: "Breathing Technique", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Rhythmic breathing"},
+                        {name: "Pool Safety", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Water confidence"}
+                    ],
+                    intermediate: [
+                        {name: "Endurance Swim", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Long distances"},
+                        {name: "All Strokes", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Butterfly, backstroke"},
+                        {name: "Flip Turns", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Pool efficiency"},
+                        {name: "Open Water Intro", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Lake/ocean swimming"}
+                    ],
+                    advanced: [
+                        {name: "Competition Swim", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Race prep"},
+                        {name: "Open Water", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Triathlon training"},
+                        {name: "Sprint Training", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "50m/100m focus"},
+                        {name: "Elite Techniques", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Olympic-level"}
+                    ]
+                },
+                "rowing": {
+                    beginner: [
+                        {name: "Rowing Basics", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Machine technique"},
+                        {name: "Form Focus", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Proper stroke"},
+                        
+                        {name: "Indoor Rowing", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Erg machine"}
+                    ],
+                    intermediate: [
+                        {name: "Endurance Rows", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "5000m+"},
+                        {name: "Power Strokes", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Strength focus"},
+                        {name: "Interval Training", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "HIIT on water"},
+                        {name: "Team Rowing", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Synchronization"}
+                    ],
+                    advanced: [
+                        {name: "Competition Prep", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "2K race pace"},
+                        {name: "Advanced Technique", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Max efficiency"},
+                        {name: "Marathon Row", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "42,195m"},
+                        {name: "Elite Training", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Olympic level"}
+                    ]
+                }
+            },
+            flexibility: {
+                "yoga": {
+                    beginner: [
+                        {name: "Yoga Basics", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Foundational poses"},
+                        {name: "Gentle Flow", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Slow movements"},
+                        {name: "Morning Yoga", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Wake up routine"},
+                        {name: "Stress Relief", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Relaxation focus"}
+                    ],
+                    intermediate: [
+                        {name: "Vinyasa Flow", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Breath-synchronized"},
+                        {name: "Balance Focus", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Standing poses"},
+                        {name: "Hip Openers", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Deep stretches"},
+                        
+                    ],
+                    advanced: [
+                        {name: "Advanced Asanas", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Arm balances"},
+                        {name: "Inversion Practice", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Headstands/handstands"},
+                        {name: "Yoga for Splits", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Full flexibility"},
+                        {name: "Advanced Sequences", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Flowing routines"}
+                    ]
+                },
+                "pilates": {
+                    beginner: [
+                        {name: "Pilates Intro", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Basic movements"},
+                        {name: "Mat Basics", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Core foundation"},
+                        {name: "Posture Focus", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Alignment work"},
+                        {name: "Beginner Flow", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Gentle routine"}
+                    ],
+                    intermediate: [
+                        {name: "Reformer Intro", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Machine basics"},
+                        {name: "Core Strength", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Advanced abs"},
+                        {name: "Full Body Flow", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Integrated moves"},
+                        {name: "Flexibility Focus", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Increased ROM"}
+                    ],
+                    advanced: [
+                        {name: "Advanced Reformer", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Challenging sequences"},
+                        {name: "Pilates for Dancers", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Performance focus"},
+                        {name: "Therapeutic Pilates", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Injury prevention"},
+                        {name: "Elite Control", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Precision movements"}
+                    ]
+                },
+                "dynamic-stretching": {
+                    beginner: [
+                        
+                        {name: "Pre-Workout", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Warm up routine"},
+                        {name: "Mobility Intro", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Joint health"},
+                        {name: "Daily Routine", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Quick stretches"}
+                    ],
+                    intermediate: [
+                        {name: "Athletic Stretching", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Sports performance"},
+                        {name: "Full ROM", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Range of motion"},
+                        {name: "Flow Sequences", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Connected movements"},
+                        {name: "Sport-Specific", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Tailored routines"}
+                    ],
+                    advanced: [
+                        {name: "Elite Mobility", embed: "https://www.youtube.com/embed/8iPEnn-ltC8", desc: "Extreme flexibility"},
+                        {name: "Weighted Dynamic", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Resistance added"},
+                        {name: "Controlled Stretching", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Precision movements"},
+                        {name: "Advanced Techniques", embed: "https://www.youtube.com/embed/rT7DgCr-3pg", desc: "Professional level"}
+                    ]
+                },
+                "mobility-drills": {
+                    beginner: [
+                        {name: "Mobility Basics", embed: "https://www.youtube.com/embed/av7-8igSXTs", desc: "Joint health"},
+                        {name: "Daily Routine", embed: "https://www.youtube.com/embed/eGo4IYlbE5g", desc: "Simple exercises"},
+                        {name: "Pain Relief", embed: "https://www.youtube.com/embed/JB2oyawG9KI", desc: "Tension release"},
+                        {name: "Desk Worker", embed: "https://www.youtube.com/embed/op9kVnSso6Q", desc: "Office-friendly"}
+                    ],
+                    intermediate: [
+                        {name: "Advanced Mobility", embed: "https://www.youtube.com/embed/2yjwXTZQDDI", desc: "Increased ROM"},
+                        
+                        {name: "Flow Drills", embed: "https://www.youtube.com/embed/UXJrBgI2RxA", desc: "Connected movements"},
+                        {name: "Athlete Focus", embed: "https://www.youtube.com/embed/_l3ySVKYVJ8", desc: "Performance enhancement"}
+                    ],
+                    advanced: [
+                        {name: "Extreme Mobility", embed: "https://www.youtube.com/embed/aclHkVaku9U", desc: "Advanced techniques"},
+                        {name: "Gymnastic Mobility", embed: "https://www.youtube.com/embed/-koP10y1qZI", desc: "Performance focus"},
+                        {name: "Recovery Drills", embed: "https://www.youtube.com/embed/pSHjTRCQxIw", desc: "Post-workout"},
+                        {name: "Professional Routine", embed: "https://www.youtube.com/embed/gRVjAtPip0Y", desc: "Elite level"}
+                    ]
+                }
+            }
+        };
+
+        // Complete diet database
+        const dietDatabase = {
+            weightLoss: {
+                veg: {
+                    breakfast: [
+                        "Oatmeal with berries and chia seeds (300 cal)",
+                        "Greek yogurt with almonds and honey (250 cal)",
+                        "Avocado toast on whole grain (350 cal)"
+                    ],
+                    snacks: [
+                        "Handful of mixed nuts (200 cal)",
+                        "Carrot sticks with hummus (150 cal)",
+                        "Apple with almond butter (200 cal)"
+                    ],
+                    lunch: [
+                        "Quinoa salad with chickpeas and veggies (400 cal)",
+                        "Lentil soup with whole grain bread (350 cal)",
+                        "Vegetable stir-fry with tofu (450 cal)"
+                    ],
+                    dinner: [
+                        "Zucchini noodles with pesto (300 cal)",
+                        "Stuffed bell peppers with brown rice (400 cal)",
+                        "Vegetable curry with chickpeas (350 cal)"
+                    ]
+                },
+                nonveg: {
+                    breakfast: [
+                        "Scrambled eggs with spinach (300 cal)",
+                        "Greek yogurt with granola (250 cal)",
+                        "Smoked salmon on rye (350 cal)"
+                    ],
+                    snacks: [
+                        "Hard-boiled eggs (140 cal)",
+                        "Turkey roll-ups (180 cal)",
+                        "Cottage cheese with fruit (200 cal)"
+                    ],
+                    lunch: [
+                        "Grilled chicken salad (400 cal)",
+                        "Tuna lettuce wraps (350 cal)",
+                        "Turkey and avocado sandwich (450 cal)"
+                    ],
+                    dinner: [
+                        "Baked salmon with veggies (450 cal)",
+                        "Lean beef stir-fry (500 cal)",
+                        "Herb-crusted cod with quinoa (400 cal)"
+                    ]
+                }
+            },
+            muscleGain: {
+                veg: {
+                    breakfast: [
+                        "Protein pancakes with peanut butter (600 cal)",
+                        "Tofu scramble with sweet potato (550 cal)",
+                        "Cottage cheese with whole grain toast (500 cal)"
+                    ],
+                    snacks: [
+                        "Protein shake with banana (400 cal)",
+                        "Trail mix with dried fruit (350 cal)",
+                        "Roasted chickpeas (300 cal)"
+                    ],
+                    lunch: [
+                        "Lentil curry with brown rice (700 cal)",
+                        "Quinoa bowl with nuts and seeds (650 cal)",
+                        "Tempeh stir-fry with rice (600 cal)"
+                    ],
+                    dinner: [
+                        "Seitan steak with roasted veggies (650 cal)",
+                        "Bean chili with whole grain bread (600 cal)",
+                        "Tofu stir-fry with quinoa (550 cal)"
+                    ]
+                },
+                nonveg: {
+                    breakfast: [
+                        "6-egg omelet with cheese (700 cal)",
+                        "Steak and eggs with hash (800 cal)",
+                        "Greek yogurt with granola (500 cal)"
+                    ],
+                    snacks: [
+                        "Whey protein shake (400 cal)",
+                        "Chicken skewers with peanut sauce (450 cal)",
+                        "Hard-boiled eggs with rice cakes (350 cal)"
+                    ],
+                    lunch: [
+                        "Grilled chicken with rice (800 cal)",
+                        "Salmon with sweet potato (750 cal)",
+                        "Beef and broccoli with rice (700 cal)"
+                    ],
+                    dinner: [
+                        "Lean beef with mashed potatoes (850 cal)",
+                        "Turkey breast with pasta (800 cal)",
+                        "Baked cod with lentils (700 cal)"
+                    ]
+                }
+            },
+            generalFitness: {
+                veg: {
+                    breakfast: [
+                        "Smoothie bowl with granola (450 cal)",
+                        "Avocado toast with eggs (500 cal)",
+                        "Chia pudding with berries (400 cal)"
+                    ],
+                    snacks: [
+                        "Handful of trail mix (300 cal)",
+                        "Rice cakes with hummus (250 cal)",
+                        "Greek yogurt with honey (200 cal)"
+                    ],
+                    lunch: [
+                        "Buddha bowl with grains (550 cal)",
+                        "Vegetable lasagna (600 cal)",
+                        "Falafel wrap with tahini (500 cal)"
+                    ],
+                    dinner: [
+                        "Mushroom risotto (600 cal)",
+                        "Stuffed sweet potatoes (550 cal)",
+                        "Vegetable curry with rice (500 cal)"
+                    ]
+                },
+                nonveg: {
+                    breakfast: [
+                        "Breakfast burrito with chicken (600 cal)",
+                        "Smoked salmon bagel (550 cal)",
+                        "Poached eggs with avocado (500 cal)"
+                    ],
+                    snacks: [
+                        "Beef jerky and cheese (350 cal)",
+                        "Tuna salad on crackers (300 cal)",
+                        "Greek yogurt with granola (250 cal)"
+                    ],
+                    lunch: [
+                        "Grilled chicken Caesar salad (650 cal)",
+                        "Shrimp stir-fry with rice (600 cal)",
+                        "Turkey and cheese sandwich (550 cal)"
+                    ],
+                    dinner: [
+                        "Herb-roasted chicken with potatoes (700 cal)",
+                        "Salmon with quinoa (650 cal)",
+                        "Pork tenderloin with veggies (600 cal)"
+                    ]
+                }
+            },
+            endurance: {
+                veg: {
+                    breakfast: [
+                        "Oatmeal with banana and nuts (500 cal)",
+                        "Whole grain pancakes with syrup (600 cal)",
+                        "Smoothie with oats and fruit (550 cal)"
+                    ],
+                    snacks: [
+                        "Energy balls with dates (400 cal)",
+                        "Banana with peanut butter (350 cal)",
+                        "Whole grain toast with jam (300 cal)"
+                    ],
+                    lunch: [
+                        "Pasta with marinara sauce (700 cal)",
+                        "Rice bowl with beans and avocado (650 cal)",
+                        "Potato and lentil stew (600 cal)"
+                    ],
+                    dinner: [
+                        "Quinoa stir-fry with tofu (650 cal)",
+                        "Whole wheat pasta with pesto (600 cal)",
+                        "Sweet potato and black bean tacos (550 cal)"
+                    ]
+                },
+                nonveg: {
+                    breakfast: [
+                        "Egg and cheese bagel (700 cal)",
+                        "Pancakes with sausage (800 cal)",
+                        "Greek yogurt with granola (500 cal)"
+                    ],
+                    snacks: [
+                        "Hard-boiled eggs with salt (300 cal)",
+                        "Turkey and cheese roll-ups (350 cal)",
+                        "Chocolate milk (400 cal)"
+                    ],
+                    lunch: [
+                        "Chicken and rice bowl (800 cal)",
+                        "Tuna pasta salad (750 cal)",
+                        "Burrito with rice and meat (700 cal)"
+                    ],
+                    dinner: [
+                        "Salmon with roasted potatoes (850 cal)",
+                        "Beef stir-fry with noodles (800 cal)",
+                        "Grilled chicken with mashed potatoes (750 cal)"
+                    ]
+                }
+            },
+            flexibility: {
+                veg: {
+                    breakfast: [
+                        "Chia pudding with flax (400 cal)",
+                        "Smoothie with spinach and banana (350 cal)",
+                        "Avocado toast with hemp seeds (450 cal)"
+                    ],
+                    snacks: [
+                        "Almonds and dried fruit (300 cal)",
+                        "Hummus with veggie sticks (250 cal)",
+                        "Kefir with granola (200 cal)"
+                    ],
+                    lunch: [
+                        "Kale salad with quinoa (500 cal)",
+                        "Lentil soup with bread (450 cal)",
+                        "Vegetable curry with rice (550 cal)"
+                    ],
+                    dinner: [
+                        "Roasted vegetable medley (500 cal)",
+                        "Zucchini noodles with pesto (450 cal)",
+                        "Stuffed peppers with quinoa (400 cal)"
+                    ]
+                },
+                nonveg: {
+                    breakfast: [
+                        "Smoked salmon with avocado (500 cal)",
+                        "Greek yogurt with walnuts (450 cal)",
+                        "Poached eggs with asparagus (400 cal)"
+                    ],
+                    snacks: [
+                        "Beef jerky and almonds (350 cal)",
+                        "Cottage cheese with pineapple (300 cal)",
+                        "Hard-boiled eggs with salt (250 cal)"
+                    ],
+                    lunch: [
+                        "Grilled chicken salad (550 cal)",
+                        "Tuna salad lettuce wraps (500 cal)",
+                        "Shrimp and avocado salad (450 cal)"
+                    ],
+                    dinner: [
+                        "Baked salmon with veggies (600 cal)",
+                        "Herb-crusted cod with quinoa (550 cal)",
+                        "Turkey meatballs with zucchini noodles (500 cal)"
+                    ]
+                }
+            }
+        };
+
+        // Injury database
+        const injuryDatabase = {
+            weightLoss: {
+                injuries: [
+                    "Knee pain from excessive jumping",
+                    "Ankle sprains from quick direction changes",
+                    "Shoulder strain from improper form",
+                    "Shin splints from high-impact exercises",
+                    "Lower back pain from poor core engagement",
+                    "Wrist strain from improper push-up form"
+                ],
+                treatments: [
+                    "RICE method (Rest, Ice, Compression, Elevation)",
+                    "Proper warm-up and cool-down routines",
+                    "Gradual progression in intensity",
+                    "Cross-training to prevent overuse",
+                    "Proper footwear selection",
+                    "Form checks with a trainer"
+                ]
+            },
+            muscleGain: {
+                injuries: [
+                    "Shoulder impingement from poor pressing form",
+                    "Lower back strain from improper deadlifts",
+                    "Knee pain from incorrect squat technique",
+                    "Rotator cuff injuries from overhead lifts",
+                    "Pectoral tears from excessive bench press",
+                    "Hip flexor tightness from heavy lifting"
+                ],
+                treatments: [
+                    "Focus on proper form before increasing weight",
+                    "Incorporate mobility work for joints",
+                    "Balanced programming (push/pull/legs)",
+                    "Deload weeks every 4-6 weeks",
+                    "Foam rolling and stretching",
+                    "Spotter use for heavy lifts"
+                ]
+            },
+            generalFitness: {
+                injuries: [
+                    "General muscle soreness from new activities",
+                    "Wrist strain from improper push-up form",
+                    "Neck pain from poor posture during exercises",
+                    "Hamstring tightness from insufficient stretching",
+                    "Plantar fasciitis from improper footwear",
+                    "Elbow pain from repetitive motions"
+                ],
+                treatments: [
+                    "Active recovery days",
+                    "Proper progression in difficulty",
+                    "Form checks with mirrors or videos",
+                    "Balanced workout programming",
+                    "Adequate hydration and nutrition",
+                    "Listening to body signals"
+                ]
+            },
+            endurance: {
+                injuries: [
+                    "Runner's knee from overuse",
+                    "IT band syndrome from repetitive motion",
+                    "Achilles tendinitis from increased mileage",
+                    "Stress fractures from too much too soon",
+                    "Blisters and chafing from friction",
+                    "Dehydration and electrolyte imbalance"
+                ],
+                treatments: [
+                    "Gradual mileage increase (10% rule)",
+                    "Proper running shoe rotation",
+                    "Cross-training to reduce impact",
+                    "Hydration and nutrition strategies",
+                    "Foam rolling and massage",
+                    "Rest days incorporated into schedule"
+                ]
+            },
+            flexibility: {
+                injuries: [
+                    "Muscle strains from overstretching",
+                    "Joint hypermobility issues",
+                    "Lower back pain from improper bending",
+                    "Hamstring pulls from forced stretches",
+                    "Wrist strain from arm balances",
+                    "Neck strain from improper alignment"
+                ],
+                treatments: [
+                    "Warm up before deep stretching",
+                    "Respect current flexibility limits",
+                    "Use props for support",
+                    "Focus on balanced flexibility (front/back)",
+                    "Strengthen muscles around flexible joints",
+                    "Avoid bouncing in stretches"
+                ]
+            }
+        };
+
+        const fitnessGoalEl = document.getElementById('fitnessGoal');
+        const workoutCategoryEl = document.getElementById('workoutCategory');
+        const experienceLevelEl = document.getElementById('experienceLevel');
+        const tutorialContainer = document.getElementById('tutorialContainer');
+        const dietPlanEl = document.getElementById('dietPlan');
+        const commonInjuriesEl = document.getElementById('commonInjuries');
+        const treatmentTipsEl = document.getElementById('treatmentTips');
+
+        // Event listeners
+        fitnessGoalEl.addEventListener('change', updateWorkouts);
+        workoutCategoryEl.addEventListener('change', updateTutorial);
+        experienceLevelEl.addEventListener('change', updateTutorial);
+
+        function updateWorkouts() {
+            const selectedGoal = fitnessGoalEl.value;
+            workoutCategoryEl.innerHTML = '<option value="">Select Workout</option>';
+            
+            if(selectedGoal){
+                const workouts = {
+                    weightLoss: ["HIIT", "Circuit Training", "Bodyweight Exercises"],
+                    muscleGain: ["Weightlifting", "Resistance Band Work", "Compound Lifts"],
+                    generalFitness: ["Functional Training", "Core Workouts", "Light Cardio", "Stretching"],
+                    endurance: ["Long-distance Running", "Cycling", "Swimming", "Rowing"],
+                    flexibility: ["Yoga", "Pilates", "Dynamic Stretching", "Mobility Drills"]
+                }[selectedGoal];
+                
+                workouts.forEach(workout => {
+                    const option = document.createElement('option');
+                    option.value = workout.toLowerCase().replace(/\s+/g,'-');
+                    option.textContent = workout;
+                    workoutCategoryEl.appendChild(option);
+                });
+            }
+            
+            // Clear previous content when goal changes
+            tutorialContainer.innerHTML = '';
+            dietPlanEl.innerHTML = '';
+            commonInjuriesEl.innerHTML = '';
+            treatmentTipsEl.innerHTML = '';
+        }
+
+        function updateTutorial() {
+            const goal = fitnessGoalEl.value;
+            const workout = workoutCategoryEl.value;
+            const level = experienceLevelEl.value;
+
+            // Clear previous content
+            tutorialContainer.innerHTML = '';
+            dietPlanEl.innerHTML = '';
+            commonInjuriesEl.innerHTML = '';
+            treatmentTipsEl.innerHTML = '';
+
+            // Show loading state
+            tutorialContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+
+            // Simulate loading delay
+            setTimeout(() => {
+                if(goal && workout && level && workoutDatabase[goal] && workoutDatabase[goal][workout] && workoutDatabase[goal][workout][level]){
+                    const variations = workoutDatabase[goal][workout][level];
+                    let html = '<div class="card fade-in">';
+                    html += `<div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-${getGoalIcon(goal)}"></i>
+                                    <h2>${workout.replace(/-/g," ").toUpperCase()}</h2>
+                                </div>
+                                <div class="level-badge">${level.charAt(0).toUpperCase() + level.slice(1)}</div>
+                            </div>`;
+                    html += '<div class="video-container">';
+                    variations.forEach(v => {
+                        html += `<div class="video-card">
+                                    <div class="video-thumbnail">
+                                        <iframe src="${v.embed}" title="${v.name}" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="video-info">
+                                        <h3>${v.name}</h3>
+                                        <p>${v.desc}</p>
+                                    </div>
+                                </div>`;
+                    });
+                    html += '</div></div>';
+                    tutorialContainer.innerHTML = html;
+
+                    // Generate diet plan
+                    if(dietDatabase[goal]){
+                        dietPlanEl.innerHTML = generateDietPlan(goal);
+                        
+                        // Tab functionality
+                        document.querySelectorAll('.diet-tab').forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                document.querySelectorAll('.diet-tab').forEach(t => t.classList.remove('active'));
+                                document.querySelectorAll('.diet-content').forEach(c => c.classList.remove('active'));
+                                tab.classList.add('active');
+                                document.getElementById(`${tab.dataset.tab}-diet`).classList.add('active');
+                            });
+                        });
+                    }
+
+                    // Generate injury and treatment info
+                    if(injuryDatabase[goal]){
+                        commonInjuriesEl.innerHTML = `<div class="card fade-in delay-2">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-procedures"></i>
+                                    <h2>Common ${goal.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} Injuries</h2>
+                                </div>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h3><i class="fas fa-exclamation-triangle"></i> Potential Issues</h3>
+                                    <ul>
+                                        ${injuryDatabase[goal].injuries.map(i => `<li>${i}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        treatmentTipsEl.innerHTML = `<div class="card fade-in delay-3">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-first-aid"></i>
+                                    <h2>Prevention & Treatment</h2>
+                                </div>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h3><i class="fas fa-shield-alt"></i> Safety Tips</h3>
+                                    <ul>
+                                        ${injuryDatabase[goal].treatments.map(t => `<li>${t}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                } else {
+                    tutorialContainer.innerHTML = '<div class="empty-state fade-in"><i class="fas fa-heartbeat pulse"></i><h3>Select Your Preferences</h3><p>Choose a fitness goal, workout type, and experience level to see personalized recommendations.</p></div>';
+                }
+            }, 800); // Simulated loading delay
+        }
+
+        function getGoalIcon(goal) {
+            const icons = {
+                weightLoss: 'fire',
+                muscleGain: 'dumbbell',
+                generalFitness: 'heartbeat',
+                endurance: 'running',
+                flexibility: 'spa'
+            };
+            return icons[goal] || 'heartbeat';
+        }
+
+        function generateDietPlan(goal) {
+            return `<div class="card fade-in delay-1">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-utensils"></i>
+                        <h2>Recommended Diet Plan</h2>
+                    </div>
+                </div>
+                <div class="diet-tabs">
+                    <div class="diet-tab active" data-tab="veg">Vegetarian</div>
+                    <div class="diet-tab" data-tab="nonveg">Non-Vegetarian</div>
+                </div>
+                <div class="diet-content active" id="veg-diet">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h3><i class="fas fa-sun"></i> Breakfast</h3>
+                            <ul>
+                                ${dietDatabase[goal].veg.breakfast.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-apple-alt"></i> Snacks</h3>
+                            <ul>
+                                ${dietDatabase[goal].veg.snacks.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-hamburger"></i> Lunch</h3>
+                            <ul>
+                                ${dietDatabase[goal].veg.lunch.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-moon"></i> Dinner</h3>
+                            <ul>
+                                ${dietDatabase[goal].veg.dinner.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="diet-content" id="nonveg-diet">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h3><i class="fas fa-sun"></i> Breakfast</h3>
+                            <ul>
+                                ${dietDatabase[goal].nonveg.breakfast.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-apple-alt"></i> Snacks</h3>
+                            <ul>
+                                ${dietDatabase[goal].nonveg.snacks.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-hamburger"></i> Lunch</h3>
+                            <ul>
+                                ${dietDatabase[goal].nonveg.lunch.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-moon"></i> Dinner</h3>
+                            <ul>
+                                ${dietDatabase[goal].nonveg.dinner.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+    </script>
+</body>
+</html>

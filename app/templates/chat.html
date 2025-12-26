@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ other_user.full_name }} - CampusFit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --light: #f8fafc;
+            --dark: #1a1a2e;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --me-msg: #dcf8c6; /* Greenish for me */
+            --other-msg: #ffffff; /* White for them */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .back-btn {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .chat-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #e5ddd5;
+        }
+        .message-wrapper {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+        /* Styles for MY messages (Right side) */
+        .message-wrapper.sent {
+            align-self: flex-end; /* Pushes to right */
+            background-color: var(--me-msg);
+            border-bottom-right-radius: 0;
+        }
+        /* Styles for OTHER messages (Left side) */
+        .message-wrapper.received {
+            align-self: flex-start; /* Pushes to left */
+            background-color: var(--other-msg);
+            border-bottom-left-radius: 0;
+        }
+        .meta {
+            font-size: 0.7rem;
+            color: #999;
+            text-align: right;
+            margin-top: 5px;
+        }
+        .sender-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--secondary);
+        }
+        .input-area {
+            background: #fff;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        #chat-message-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 25px;
+            outline: none;
+            font-family: inherit;
+        }
+        #chat-message-submit {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #chat-message-submit:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'booking' %}" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="header-title">Chat with {{ other_user.full_name }}</div>
+        <div style="width: 50px;"></div>
+    </header>
+
+    <div class="chat-container" id="chat-log">
+        {% for message in messages %}
+            <div class="message-wrapper {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                {% if message.sender != request.user %}
+                    <div class="sender-name">{{ message.sender.full_name }}</div>
+                {% endif %}
+                <div class="content">{{ message.content }}</div>
+                <div class="meta">{{ message.timestamp|date:"g:i A" }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="input-area">
+        <input id="chat-message-input" type="text" placeholder="Type a message...">
+        <button id="chat-message-submit" type="button"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
+    {{ booking.id|json_script:"booking-id" }}
+    {{ other_user.id|json_script:"receiver-id" }}
+    {{ request.user.id|json_script:"user-id" }} <script>
+        const bookingId = JSON.parse(document.getElementById('booking-id').textContent);
+        const receiverId = JSON.parse(document.getElementById('receiver-id').textContent);
+        const currentUserId = JSON.parse(document.getElementById('user-id').textContent); // <--- NEW
+
+        const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
+        const chatSocket = new WebSocket(
+            wsScheme + '://' + window.location.host + '/ws/chat/' + bookingId + '/'
+        );
+
+        chatSocket.onopen = function(e) {
+            console.log("WebSocket connected.");
+        };
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const chatLog = document.querySelector('#chat-log');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-wrapper');
+            
+            // FIX: Check who sent the message
+            if (data.sender_id === currentUserId) {
+                messageDiv.classList.add('sent'); // My message -> Right
+            } else {
+                messageDiv.classList.add('received'); // Their message -> Left
+            }
+
+            const senderDiv = document.createElement('div');
+            senderDiv.classList.add('sender-name');
+            senderDiv.textContent = data.sender_name;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('content');
+            contentDiv.textContent = data.message;
+            
+            const metaDiv = document.createElement('div');
+            metaDiv.classList.add('meta');
+            metaDiv.textContent = data.timestamp;
+
+            // Only show name if it's NOT me
+            if (data.sender_id !== currentUserId) {
+                messageDiv.appendChild(senderDiv);
+            }
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(metaDiv);
+            
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed');
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            
+            if (message.trim() === "") return;
+
+            if (chatSocket.readyState === WebSocket.OPEN) {
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'receiver_id': receiverId
+                }));
+                messageInputDom.value = '';
+            } else {
+                alert("Connection lost. Please refresh.");
+            }
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+        
+        const chatLog = document.querySelector('#chat-log');
+        chatLog.scrollTop = chatLog.scrollHeight;
+    </script>
+</body>
+</html>

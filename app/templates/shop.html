@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFit — Gym Equipment & Supplements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4D44DB;
+            --accent: #FF6584;
+            --light: #F8F9FA;
+            --dark: #343A40;
+            --gray: #6c757d;
+            --darker: #212529;
+            --success: #28A745;
+            --info: #17A2B8;
+            --warning: #FFC107;
+            --danger: #DC3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff4d6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 101, 132, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        main {
+            padding: 40px 0;
+        }
+        
+        .promo-banner {
+            background: linear-gradient(135deg, var(--accent), #ff4d6d);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(255, 101, 132, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            color: var(--secondary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin-top: 10px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(108, 99, 255, 0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-color: #f5f5f5;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .product-brand {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            margin-left: 8px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .discount-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+        }
+        
+        .retailer-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: #f3f3f3;
+            color: var(--dark);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        footer {
+            background: var(--darker);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+            color: white;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <div>
+                        <h1>CampusFit</h1>
+                        <div class="tagline">Premium Gym Equipment & Supplements</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="promo-banner">
+            <i class="fas fa-tag"></i> EXCLUSIVE DISCOUNTS - LIMITED TIME OFFER!
+        </div>
+        
+        <h2 class="section-title">Protein Powders</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('c:\Users\ajith\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\TempState\78229647B82D30C5A193E6B01B2306F5\WhatsApp Image 2025-08-15 at 06.21.20_2f6a224a.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Optimum Nutrition Gold Standard Whey</h3>
+                    <p class="product-brand">2 lbs (Double Rich Chocolate)</p>
+                    <div class="product-price">
+                        <span class="current-price">₹3,999</span>
+                        <span class="original-price">₹4,700</span>
+                        <span class="discount-badge">15% OFF</span>
+                    </div>
+                    <a href="https://www.flipkart.com/optimum-nutrition-on-gold-standard-100-whey-protein-powder-primary-source-isolate/p/itme124e85504588?pid=PSLEAVZ3CHNEXVPP&lid=LSTPSLEAVZ3CHNEXVPPOLGPIW&marketplace=FLIPKART&q=Optimum+Nutrition+Gold+Standard+Whey&store=hlc%2Fetg%2F1rx&spotlightTagId=default_TrendingId_hlc%2Fetg%2F1rx&srno=s_1_1&otracker=search&otracker1=search&fm=organic&iid=b6ecba45-6296-4236-b427-d7932feb2e23.PSLEAVZ3CHNEXVPP.SEARCH&ppt=None&ppn=None&ssid=qlehaovfls0000001755215174584&qH=ec5b84c8ce19520c" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Amazon</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71YRs5tG3VL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">MuscleBlaze Whey Protein</h3>
+                    <p class="product-brand">1 kg (Rich Chocolate)</p>
+                    <div class="product-price">
+                        <span class="current-price">₹2,799</span>
+                        <span class="original-price">₹3,299</span>
+                        <span class="discount-badge">17% OFF</span>
+                    </div>
+                    <a href="hhttps://amzn.in/d/icJTgYr" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Flipkart</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/61+8bX9qMAL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">MyProtein Impact Whey Protein</h3>
+                    <p class="product-brand">1 kg (Chocolate Smooth)</p>
+                    <div class="product-price">
+                        <span class="current-price">₹3,299</span>
+                        <span class="original-price">₹3,899</span>
+                        <span class="discount-badge">12% OFF</span>
+                    </div>
+                    <a href="https://amzn.in/d/4JlOjfV" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">MyProtein</span>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Home Gym Equipment</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71p9YI1+ZoL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">SPORTSTAR Adjustable Dumbbells</h3>
+                    <p class="product-brand">40kg Set with Stand</p>
+                    <div class="product-price">
+                        <span class="current-price">₹12,999</span>
+                        <span class="original-price">₹15,499</span>
+                        <span class="discount-badge">18% OFF</span>
+                    </div>
+                    <a href="https://www.flipkart.com/cognant-sports-fitnes-40kg-pvc-dumbbell-set-fitness-accesories-best-home-exerciser-adjustable/p/itm982af521986f3?pid=DBLH94CTH47SZZGB&lid=LSTDBLH94CTH47SZZGBM8A0U5&marketplace=FLIPKART&q=SPORTSTAR+Adjustable+Dumbbells&store=qoc%2Facb%2Fzuc&srno=s_1_9&otracker=search&otracker1=search&fm=Search&iid=b46f7535-946a-4bec-9543-45e7cfe36e9b.DBLH94CTH47SZZGB.SEARCH&ppt=sp&ppn=sp&qH=45adb71a14637857" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Amazon</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71vZypjNkPS._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">AGARO Resistance Bands Set</h3>
+                    <p class="product-brand">5 Bands with Accessories</p>
+                    <div class="product-price">
+                        <span class="current-price">₹899</span>
+                        <span class="original-price">₹1,299</span>
+                        <span class="discount-badge">30% OFF</span>
+                    </div>
+                    <a href="https://amzn.in/d/dH20msW" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Flipkart</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/61+8bX9qMAL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">REACH Foldable Treadmill</h3>
+                    <p class="product-brand">2.5HP with Bluetooth</p>
+                    <div class="product-price">
+                        <span class="current-price">₹34,999</span>
+                        <span class="original-price">₹42,999</span>
+                        <span class="discount-badge">20% OFF</span>
+                    </div>
+                    <a href="https://amzn.in/d/4khQv32" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Amazon</span>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Gym Accessories</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71YRs5tG3VL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">HIGGLE Gym Gloves</h3>
+                    <p class="product-brand">With Wrist Support</p>
+                    <div class="product-price">
+                        <span class="current-price">₹699</span>
+                        <span class="original-price">₹999</span>
+                        <span class="discount-badge">30% OFF</span>
+                    </div>
+                    <a href="https://www.flipkart.com/boldfit-gym-gloves-men-wrist-support-hand-glove-women-fitness/p/itmeb7d3509b54c1?pid=SGEGHGHHH8WPRFBE&lid=LSTSGEGHGHHH8WPRFBETUXXWR&marketplace=FLIPKART&q=HIGGLE+Gym+Gloves&store=qoc%2Facb%2Fafr&srno=s_1_5&otracker=search&otracker1=search&fm=Search&iid=106e3f16-8728-4f69-8328-c39c8609a1f4.SGEGHGHHH8WPRFBE.SEARCH&ppt=pp&ppn=pp&ssid=tvw7ebvpgw0000001755215602284&qH=8ff4c8c7e08f6bda" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Flipkart</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/71kBeO1Z5QL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">PRO360 Shaker Bottle</h3>
+                    <p class="product-brand">700ml with Storage</p>
+                    <div class="product-price">
+                        <span class="current-price">₹299</span>
+                        <span class="original-price">₹499</span>
+                        <span class="discount-badge">40% OFF</span>
+                    </div>
+                    <a href="https://www.flipkart.com/muscleblaze-steel-pro-shaker-700-ml/p/itmd663da0cffe54?pid=BOTH3FMZUBFWAYPV&lid=LSTBOTH3FMZUBFWAYPVIC4WBH&marketplace=FLIPKART&q=PRO360+Shaker+Bottle&store=qoc%2Facb%2Fqat&srno=s_1_1&otracker=search&otracker1=search&fm=Search&iid=en_Tx9V-VH8mGz7d-bYtW1a-ctxyzsDYuHc70yq3Opx04Ah2AmyQKZE3u4pGUyIrEiFXTF3303WXYcio__Kff-yPw%3D%3D&ppt=pp&ppn=pp&ssid=l36vi68t7k0000001755215699770&qH=89b236749cbc218a" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Amazon</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://m.media-amazon.com/images/I/61+8bX9qMAL._SL1500_.jpg');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Noise ColorFit Pro 2</h3>
+                    <p class="product-brand">Smart Fitness Tracker</p>
+                    <div class="product-price">
+                        <span class="current-price">₹1,999</span>
+                        <span class="original-price">₹2,999</span>
+                        <span class="discount-badge">33% OFF</span>
+                    </div>
+                    <a href="https://amzn.in/d/jfENiki" class="buy-button">BUY NOW</a>
+                    <span class="retailer-badge">Flipkart</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                
+               
+                <div class="copyright">
+                    &copy; 2025 CampusFit Shop. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
