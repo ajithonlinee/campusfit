@@ -1,167 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Browse Mentors - CampusFit</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
+/* --- VARIABLES --- */
 :root {
-    --primary: #4361ee; --secondary: #3a0ca3; --dark: #1a1a2e; --light: #f8fafc; --gray: #6c757d;
-    --light-gray: #e9ecef; --success: #4cc9f0; --warning: #f8961e; --border-radius: 12px;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --primary: #4f46e5;      /* Indigo */
+    --secondary: #ec4899;    /* Pink */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: var(--light);
-    color: var(--dark);
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
 }
+
+/* --- HEADER --- */
 header {
-    background: #fff;
-    color: var(--dark);
-    padding: 15px 30px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0.8rem 0;
 }
-header .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
+
+.header-container {
+    max-width: 1400px; margin: 0 auto; padding: 0 30px;
+    display: flex; justify-content: space-between; align-items: center;
 }
-header a {
-    color: var(--gray);
-    text-decoration: none;
-    font-weight: 500;
-    margin: 0 10px;
-    padding: 8px 15px;
-    border-radius: var(--border-radius);
-    transition: all 0.3s ease;
+
+.logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.4rem;
+    color: #fff; text-decoration: none;
 }
-header a:hover {
-    color: var(--primary);
-    background: rgba(67, 97, 238, 0.1);
+.logo i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
 }
+
+nav { display: flex; align-items: center; gap: 5px; }
+nav a {
+    padding: 8px 16px; color: var(--text-muted); text-decoration: none;
+    font-weight: 500; border-radius: 50px; transition: var(--transition);
+    font-size: 0.9rem;
+}
+nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+/* --- MAIN CONTENT --- */
 .container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 16px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
+
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem; margin-bottom: 10px; text-align: center;
+    background: linear-gradient(to right, #fff, #cbd5e1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-subtitle {
+    text-align: center; color: var(--text-muted); margin-bottom: 40px;
+}
+
+/* --- GRID --- */
 .mentors-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
 }
+
 .mentor-card {
-    background: #fff;
-    padding: 20px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--light-gray);
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+    padding: 25px;
+    display: flex; flex-direction: column;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
 }
+
 .mentor-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 30px -10px rgba(0,0,0,0.4);
 }
+
 .mentor-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: flex; justify-content: space-between; align-items: flex-start;
     margin-bottom: 15px;
 }
-.mentor-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+
+.mentor-info { display: flex; align-items: center; gap: 15px; }
+
 .mentor-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
-    flex-shrink: 0;
+    width: 55px; height: 55px; border-radius: 14px;
+    background: linear-gradient(135deg, #334155, #1e293b);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-.mentor-details h4 {
-    font-weight: 600;
-    margin: 0 0 3px 0;
-}
+
+.mentor-details h4 { font-size: 1.1rem; margin: 0 0 4px; color: #fff; }
 .mentor-specialty {
-    display: inline-block;
-    padding: 3px 8px;
-    background: rgba(67, 97, 238, 0.1);
-    color: var(--primary);
-    border-radius: 50px;
-    font-size: 0.7rem;
-    font-weight: 600;
+    display: inline-block; padding: 3px 10px;
+    background: rgba(236, 72, 153, 0.1); color: var(--secondary);
+    border-radius: 50px; font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
 }
+
 .mentor-points {
-    background: rgba(76, 201, 240, 0.1);
-    color: var(--success);
-    padding: 5px 10px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-shrink: 0;
+    background: rgba(251, 191, 36, 0.1); color: #fbbf24;
+    padding: 5px 10px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+    display: flex; align-items: center; gap: 5px;
 }
+
 .mentor-bio {
-    color: var(--gray);
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    line-height: 1.6;
-    flex-grow: 1;
+    color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px;
+    line-height: 1.6; flex-grow: 1;
 }
+
 .btn-book {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
-    background: var(--primary);
-    color: #fff;
-    align-self: flex-end;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 20px; border-radius: 50px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    background: var(--gradient-main); color: #fff;
+    transition: var(--transition); border: none; cursor: pointer;
+    align-self: flex-start; width: 100%;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
 }
+
 .btn-book:hover {
-    background: var(--secondary);
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
 }
+
+/* Empty State */
 .empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray);
+    grid-column: 1 / -1;
+    text-align: center; padding: 60px; color: var(--text-muted);
+    background: rgba(255,255,255,0.02); border-radius: var(--border-radius);
+    border: 1px dashed rgba(255,255,255,0.1);
 }
+.empty-state i { font-size: 3rem; margin-bottom: 15px; opacity: 0.3; display: block; }
+
 </style>
 </head>
 <body>
+
   <header>
-    <div class="logo"><i class="fas fa-dumbbell"></i></div>
-    <nav>
-      <a href="{% url 'learner_dash' %}">Dashboard</a>
-      <a href="{% url 'logout' %}">Logout</a>
-    </nav>
+    <div class="header-container">
+      <a href="#" class="logo"><i class="fas fa-dumbbell"></i><span>CampusFit</span></a>
+      <nav>
+        <a href="{% url 'learner_dash' %}">Dashboard</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      </nav>
+    </div>
   </header>
 
   <div class="container">
-    <h2 style="text-align:center;color:#2c3e50;margin-bottom:30px;">Browse All Mentors</h2>
+    <h1 class="page-title">Find Your Mentor</h1>
+    <p class="page-subtitle">Connect with experienced seniors to guide your fitness journey.</p>
     
     <div class="mentors-grid">
     {% for mentor in mentors %}
@@ -175,18 +195,24 @@ header a:hover {
             </div>
           </div>
           <div class="mentor-points">
-            <i class="fas fa-bolt"></i> {{ mentor.points }} pts
+            <i class="fas fa-bolt"></i> {{ mentor.points }}
           </div>
         </div>
-        <p class="mentor-bio">{{ mentor.bio }}</p>
+        
+        <p class="mentor-bio">{{ mentor.bio|truncatechars:150 }}</p>
+        
         <a href="{% url 'book_session' mentor.pk %}" class="btn-book">
-            <i class="fas fa-calendar-plus" style="margin-right: 8px;"></i> Book Session
+            Book Session <i class="fas fa-arrow-right" style="margin-left: 8px; font-size: 0.8rem;"></i>
         </a>
       </div>
     {% empty %}
-      <p class="empty-state">No mentors have signed up yet.</p>
+      <div class="empty-state">
+        <i class="fas fa-users-slash"></i>
+        <p>No mentors have signed up yet. Check back soon!</p>
+      </div>
     {% endfor %}
     </div>
   </div>
+
 </body>
 </html>

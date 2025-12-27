@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Smart Diet Generator - CampusFit</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* --- VARIABLES --- */
+:root {
+    --primary: #4f46e5;      /* Indigo */
+    --secondary: #ec4899;    /* Pink */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --input-bg: rgba(15, 23, 42, 0.6);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- HEADER --- */
+header {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0.8rem 0;
+}
+
+.header-container {
+    max-width: 1400px; margin: 0 auto; padding: 0 30px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.4rem;
+    color: #fff; text-decoration: none;
+}
+.logo i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
+}
+
+nav { display: flex; align-items: center; gap: 5px; }
+nav a {
+    padding: 8px 16px; color: var(--text-muted); text-decoration: none;
+    font-weight: 500; border-radius: 50px; transition: var(--transition);
+    font-size: 0.9rem;
+}
+nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+
+/* --- MAIN CONTENT --- */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Generator Card */
+.generator-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+}
+
+.generator-card h2 {
+    font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 10px;
+    background: linear-gradient(to right, #fff, #cbd5e1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.goal-badge {
+    display: inline-block;
+    background: rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.3);
+    color: #818cf8;
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.9rem; font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* Form Styling */
+form {
+    display: flex; gap: 15px; justify-content: center; align-items: center;
+    max-width: 600px; margin: 0 auto;
+}
+
+select {
+    flex: 1;
+    padding: 12px 20px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif; font-size: 1rem; color: white;
+    cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.8rem auto;
+    transition: var(--transition);
+}
+select:focus { outline: none; border-color: var(--primary); background-color: rgba(15, 23, 42, 0.9); }
+select option { background-color: #0f172a; }
+
+.btn-generate {
+    padding: 12px 30px; border-radius: 12px; border: none;
+    background: var(--gradient-main);
+    color: white; font-weight: 600; font-size: 1rem;
+    cursor: pointer; transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+}
+.btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5); }
+
+/* --- PLAN RESULTS --- */
+.plan-container { animation: fadeUp 0.6s ease-out; }
+
+.plan-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding: 0 10px;
+}
+.plan-stat {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 20px; border-radius: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+}
+.plan-stat i { color: var(--secondary); }
+
+/* Meal Grid */
+.meal-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px; margin-bottom: 20px;
+}
+
+.meal-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px; padding: 20px;
+    display: flex; align-items: flex-start; gap: 15px;
+    transition: var(--transition);
+}
+.meal-card:hover { transform: translateY(-3px); background: rgba(30, 41, 59, 0.9); }
+
+.meal-icon {
+    width: 45px; height: 45px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+}
+.icon-breakfast { background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
+.icon-snack { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+.icon-lunch { background: rgba(244, 63, 94, 0.1); color: #f43f5e; }
+.icon-dinner { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+.meal-content strong { display: block; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 4px; }
+.meal-content span { color: #fff; font-size: 1rem; font-weight: 500; }
+
+/* Tip Box */
+.tip-box {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(251, 191, 36, 0.01));
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 12px; padding: 20px;
+    display: flex; align-items: center; gap: 15px;
+    color: #fbbf24;
+}
+.tip-icon { font-size: 1.5rem; }
+.tip-text strong { display: block; margin-bottom: 3px; font-size: 1.1rem; }
+
+/* Back Link */
+.back-link {
+    display: inline-block; margin-top: 30px;
+    color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+    transition: 0.3s;
+}
+.back-link:hover { color: #fff; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 600px) {
+    form { flex-direction: column; width: 100%; }
+    select, .btn-generate { width: 100%; }
+    .plan-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .plan-stat { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo"><i class="fas fa-dumbbell"></i><span>CampusFit</span></a>
+            <nav>
+                <a href="{% url 'learner_dash' %}">Dashboard</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="generator-card">
+            <h2><i class="fas fa-magic" style="background: linear-gradient(135deg, #4f46e5, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Smart Diet Generator</h2>
+            <div class="goal-badge">Current Goal: {{ learner.get_goal_display }}</div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <select name="preference">
+                    <option value="vegetarian">Vegetarian 🌱</option>
+                    <option value="non_vegetarian">Non-Vegetarian 🍗</option>
+                </select>
+                <button type="submit" class="btn-generate">Generate Plan</button>
+            </form>
+        </div>
+
+        {% if plan %}
+        <div class="plan-container">
+            
+            <div class="plan-header">
+                <div class="plan-stat">
+                    <i class="fas fa-fire-alt"></i> Target: {{ plan.calories }}
+                </div>
+                <div class="plan-stat">
+                    <i class="fas fa-crosshairs"></i> Focus: {{ plan.focus }}
+                </div>
+            </div>
+
+            <div class="meal-grid">
+                <div class="meal-card">
+                    <div class="meal-icon icon-breakfast"><i class="fas fa-sun"></i></div>
+                    <div class="meal-content">
+                        <strong>Breakfast</strong>
+                        <span>{{ plan.breakfast }}</span>
+                    </div>
+                </div>
+                
+                <div class="meal-card">
+                    <div class="meal-icon icon-snack"><i class="fas fa-apple-alt"></i></div>
+                    <div class="meal-content">
+                        <strong>Morning Snack</strong>
+                        <span>{{ plan.snack_1 }}</span>
+                    </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-icon icon-lunch"><i class="fas fa-utensils"></i></div>
+                    <div class="meal-content">
+                        <strong>Lunch</strong>
+                        <span>{{ plan.lunch }}</span>
+                    </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-icon icon-snack"><i class="fas fa-coffee"></i></div>
+                    <div class="meal-content">
+                        <strong>Evening Snack</strong>
+                        <span>{{ plan.snack_2 }}</span>
+                    </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-icon icon-dinner"><i class="fas fa-moon"></i></div>
+                    <div class="meal-content">
+                        <strong>Dinner</strong>
+                        <span>{{ plan.dinner }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="tip-text">
+                    <strong>Pro Tip:</strong>
+                    {{ plan.tip }}
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+        
+        <div style="text-align: center;">
+            <a href="{% url 'learner_dash' %}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

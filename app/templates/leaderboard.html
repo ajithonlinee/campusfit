@@ -1,174 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Leaderboard - CampusFit</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-    --primary: #4361ee;
-    --secondary: #3a0ca3;
-    --dark: #1a1a2e;
-    --light: #f8fafc;
-    --gray: #6c757d;
-    --light-gray: #e9ecef;
-    --gold: #ffd700;
-    --silver: #c0c0c0;
-    --bronze: #cd7f32;
-    --border-radius: 12px;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: var(--light);
-    color: var(--dark);
-}
-header {
-    background: #fff;
-    color: var(--dark);
-    padding: 15px 30px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-header .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-header a {
-    color: var(--gray);
-    text-decoration: none;
-    font-weight: 500;
-    margin: 0 10px;
-    padding: 8px 15px;
-    border-radius: var(--border-radius);
-    transition: all 0.3s ease;
-}
-header a:hover {
-    color: var(--primary);
-    background: rgba(67, 97, 238, 0.1);
-}
-.container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 16px;
-}
-.leaderboard-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-.mentor-entry {
-    background: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    transition: all 0.3s ease;
-    border: 1px solid var(--light-gray);
-}
-.mentor-entry:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-.rank {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gray);
-    width: 50px;
-    text-align: center;
-    flex-shrink: 0;
-}
-.rank .fas {
-    font-size: 1.2em;
-}
-.rank.gold { color: var(--gold); }
-.rank.silver { color: var(--silver); }
-.rank.bronze { color: var(--bronze); }
 
+<style>
+/* --- VARIABLES --- */
+:root {
+    --primary: #4f46e5;      /* Indigo */
+    --secondary: #ec4899;    /* Pink */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --gold: #fbbf24;
+    --silver: #94a3b8;
+    --bronze: #b45309;
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- HEADER --- */
+header {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0.8rem 0;
+}
+
+.header-container {
+    max-width: 1400px; margin: 0 auto; padding: 0 30px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.4rem;
+    color: #fff; text-decoration: none;
+}
+.logo i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
+}
+
+nav { display: flex; align-items: center; gap: 5px; }
+nav a {
+    padding: 8px 16px; color: var(--text-muted); text-decoration: none;
+    font-weight: 500; border-radius: 50px; transition: var(--transition);
+    font-size: 0.9rem;
+}
+nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+
+/* --- MAIN CONTENT --- */
+.container {
+    max-width: 800px; margin: 40px auto; padding: 0 20px;
+}
+
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem; margin-bottom: 10px; text-align: center;
+    background: linear-gradient(to right, #fff, #cbd5e1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-subtitle {
+    text-align: center; color: var(--text-muted); margin-bottom: 40px;
+}
+
+/* --- LEADERBOARD LIST --- */
+.leaderboard-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+
+.mentor-entry {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 20px 25px;
+    display: flex; align-items: center; gap: 20px;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+}
+
+.mentor-entry:hover {
+    transform: translateY(-3px) scale(1.01);
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3);
+}
+
+/* Rank Styling */
+.rank {
+    width: 50px; text-align: center; flex-shrink: 0;
+    font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.rank.gold i { 
+    background: linear-gradient(135deg, #f59e0b, #fbbf24); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.4));
+    font-size: 1.8rem;
+}
+.rank.silver i { 
+    background: linear-gradient(135deg, #94a3b8, #cbd5e1); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
+}
+.rank.bronze i { 
+    background: linear-gradient(135deg, #b45309, #d97706); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
+}
+
+/* Avatar */
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin: 0 15px;
-    flex-shrink: 0;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: linear-gradient(135deg, #334155, #1e293b);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #fff; font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border: 2px solid rgba(255,255,255,0.05);
 }
-.details {
-    flex-grow: 1;
-}
-.details .name {
-    font-weight: 600;
-    font-size: 1.1em;
-    margin: 0;
-}
-.details .spec {
-    color: var(--gray);
-    font-size: 0.9em;
-    margin: 0;
-}
+
+/* Mentor Details */
+.details { flex-grow: 1; }
+.details .name { font-size: 1.1rem; font-weight: 600; color: #fff; margin: 0 0 3px; }
+.details .spec { font-size: 0.85rem; color: var(--secondary); margin: 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+/* Points */
 .points {
-    font-size: 1.2em;
-    font-weight: 700;
-    color: var(--primary);
-    text-align: right;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: #fff; text-align: right;
+    display: flex; flex-direction: column; align-items: flex-end;
 }
+.points small { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; text-transform: uppercase; }
+
+/* Empty State */
 .empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray);
+    text-align: center; padding: 50px; color: var(--text-muted);
+    background: rgba(255,255,255,0.02); border-radius: var(--border-radius);
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+
+/* Podium Effect for Top 3 (Subtle Glow) */
+.mentor-entry:nth-child(1) { border-color: rgba(251, 191, 36, 0.3); background: linear-gradient(90deg, rgba(251, 191, 36, 0.05), transparent); }
+.mentor-entry:nth-child(2) { border-color: rgba(148, 163, 184, 0.3); }
+.mentor-entry:nth-child(3) { border-color: rgba(180, 83, 9, 0.3); }
+
+@media (max-width: 600px) {
+    .mentor-entry { padding: 15px; gap: 15px; }
+    .avatar { width: 40px; height: 40px; font-size: 0.9rem; }
+    .rank { width: 30px; font-size: 1.2rem; }
+    .details .name { font-size: 1rem; }
+    .points { font-size: 1.1rem; }
 }
 </style>
 </head>
 <body>
-  <header>
-    <div class="logo"><i class="fas fa-dumbbell"></i></div>
-    <nav>
-      <a href="{% if request.user.role == 'learner' %}{% url 'learner_dash' %}{% else %}{% url 'mentor_dash' %}{% endif %}">Dashboard</a>
-      <a href="{% url 'logout' %}">Logout</a>
-    </nav>
-  </header>
 
-  <div class="container">
-    <h2 style="text-align:center;color:#2c3e50;margin-bottom:30px;">Mentor Leaderboard</h2>
-    
-    <ol class="leaderboard-list">
-      {% for mentor in mentors %}
-      <li class="mentor-entry">
-        <div class="rank 
-            {% if forloop.counter == 1 %}gold{% endif %}
-            {% if forloop.counter == 2 %}silver{% endif %}
-            {% if forloop.counter == 3 %}bronze{% endif %}">
-          
-            {% if forloop.counter <= 3 %}
-                <i class="fas fa-trophy"></i>
-            {% else %}
-                {{ forloop.counter }}
-            {% endif %}
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo"><i class="fas fa-dumbbell"></i><span>CampusFit</span></a>
+            <nav>
+                <a href="{% if request.user.role == 'learner' %}{% url 'learner_dash' %}{% else %}{% url 'mentor_dash' %}{% endif %}">
+                    Dashboard
+                </a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
         </div>
-        <div class="avatar">{{ mentor.user.full_name|first|upper }}</div>
-        <div class="details">
-          <p class="name">{{ mentor.user.full_name }}</p>
-          <p class="spec">{{ mentor.specialization }}</p>
-        </div>
-        <div class="points">{{ mentor.points }} pts</div>
-      </li>
-      {% empty %}
-        <li class="empty-state">No mentors have earned points yet.</li>
-      {% endfor %}
-    </ol>
-  </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Top Mentors</h1>
+        <p class="page-subtitle">Recognizing the most impactful leaders in our community.</p>
+        
+        <ol class="leaderboard-list">
+            {% for mentor in mentors %}
+            <li class="mentor-entry">
+                <div class="rank 
+                    {% if forloop.counter == 1 %}gold{% endif %}
+                    {% if forloop.counter == 2 %}silver{% endif %}
+                    {% if forloop.counter == 3 %}bronze{% endif %}">
+                  
+                    {% if forloop.counter <= 3 %}
+                        <i class="fas fa-trophy"></i>
+                    {% else %}
+                        #{{ forloop.counter }}
+                    {% endif %}
+                </div>
+                
+                <div class="avatar">{{ mentor.user.full_name|first|upper }}</div>
+                
+                <div class="details">
+                    <p class="name">{{ mentor.user.full_name }}</p>
+                    <p class="spec">{{ mentor.specialization }}</p>
+                </div>
+                
+                <div class="points">
+                    {{ mentor.points }}
+                    <small>Points</small>
+                </div>
+            </li>
+            {% empty %}
+                <li class="empty-state">
+                    <i class="fas fa-medal" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                    <p>No ranking data available yet.</p>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+
 </body>
 </html>

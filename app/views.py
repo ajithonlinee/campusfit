@@ -8,8 +8,9 @@ from django.db.models import Sum, F, ExpressionWrapper, fields
 from django.db.models.functions import Cast
 from django.db.models.expressions import RawSQL
 from django.contrib import messages
-from django.db import IntegrityError, connection # <--- Added connection import
+from django.db import IntegrityError, connection
 from .forms import LearnerSignUpForm, MentorSignUpForm
+from .ai_diet_utils import generate_smart_diet_plan # <--- Imported new utility
 
 # --- ML IMPORTS ---
 try:
@@ -112,24 +113,15 @@ def logout_view(request):
     return redirect('home')
 
 def get_end_time_expression():
-    # --- FIX: Check database type to prevent syntax errors ---
     if connection.vendor == 'sqlite':
-        # SQLite syntax: datetime(col, '+30 minutes')
         sql = "datetime(session_date, '+' || duration || ' minutes')"
     else:
-        # MySQL/Postgres syntax: col + INTERVAL 30 MINUTE
         sql = "session_date + INTERVAL duration MINUTE"
-        
-    return ExpressionWrapper(
-        RawSQL(sql, []),
-        output_field=fields.DateTimeField()
-    )
+    return ExpressionWrapper(RawSQL(sql, []), output_field=fields.DateTimeField())
 
-# --- AI-ENHANCED LEARNER DASHBOARD ---
 @login_required
 def learner_dashboard_view(request):
     learner = request.user.learner
-    
     all_mentors = Mentor.objects.filter(status='approved')
     recommended_mentors = []
 
@@ -200,7 +192,7 @@ def booking_view(request):
     if user.role == 'learner':
         upcoming = all_bookings.filter(learner=user.learner, end_time__gte=now).order_by('session_date')
         completed = all_bookings.filter(learner=user.learner, end_time__lt=now).order_by('-session_date')
-    else: # Mentor
+    else:
         upcoming = all_bookings.filter(mentor=user.mentor, end_time__gte=now).order_by('session_date')
         completed = all_bookings.filter(mentor=user.mentor, end_time__lt=now).order_by('-session_date')
     context = {'upcoming_sessions': upcoming, 'completed_sessions': completed, 'user_role': user.role}
@@ -281,6 +273,22 @@ def diet_plans_view(request):
     plans = DietPlan.objects.filter(goal=learner.goal)
     context = {'diet_plans': plans, 'learner_goal': learner.get_goal_display()}
     return render(request, 'diet_plans.html', context)
+
+# --- NEW VIEW FOR DYNAMIC DIET ---
+@login_required
+def dynamic_diet_view(request):
+    plan = None
+    learner = request.user.learner
+    preference = 'vegetarian' # Default
+    
+    if request.method == 'POST':
+        preference = request.POST.get('preference')
+        plan = generate_smart_diet_plan(learner.goal, preference)
+        
+    return render(request, 'dynamic_diet.html', {
+        'plan': plan,
+        'learner': learner
+    })
 
 def application_submitted_view(request):
     return render(request, 'application_submitted.html')

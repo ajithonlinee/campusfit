@@ -1,240 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>My Bookings - CampusFit</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
+/* --- VARIABLES --- */
 :root {
-    --primary: #4361ee;
-    --secondary: #3a0ca3;
-    --dark: #1a1a2e;
-    --light: #f8fafc;
-    --gray: #6c757d;
-    --light-gray: #e9ecef;
-    --success: #4cc9f0;
-    --warning: #f8961e;
-    --border-radius: 12px;
-    --transition: all 0.3s ease;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --primary: #4f46e5;      /* Indigo */
+    --secondary: #ec4899;    /* Pink */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;     /* Gold for stars */
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: var(--light);
-    color: var(--dark);
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
 }
 
+/* --- HEADER --- */
 header {
-    background: #fff;
-    color: var(--dark);
-    padding: 15px 30px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0.8rem 0;
 }
 
-header .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
+.header-container {
+    max-width: 1400px; margin: 0 auto; padding: 0 30px;
+    display: flex; justify-content: space-between; align-items: center;
 }
 
-header a {
-    color: var(--gray);
-    text-decoration: none;
-    font-weight: 500;
-    margin: 0 10px;
-    padding: 8px 15px;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
+.logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.4rem;
+    color: #fff; text-decoration: none;
 }
-header a:hover {
-    color: var(--primary);
-    background: rgba(67, 97, 238, 0.1);
+.logo i {
+    background: var(--gradient-main);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: 1.6rem;
 }
 
-.wrap {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 16px;
+nav { display: flex; align-items: center; gap: 5px; }
+nav a {
+    padding: 8px 16px; color: var(--text-muted); text-decoration: none;
+    font-weight: 500; border-radius: 50px; transition: var(--transition);
+    font-size: 0.9rem;
+}
+nav a:hover, nav a.active { color: #fff; background: rgba(255, 255, 255, 0.1); }
+nav a.active { background: var(--gradient-main); }
+
+/* --- MAIN LAYOUT --- */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem; margin-bottom: 30px;
+    background: linear-gradient(to right, #fff, #cbd5e1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* --- TABS --- */
 .tabs {
-    display: flex;
-    border-bottom: 2px solid var(--light-gray);
-    margin-bottom: 20px;
+    display: flex; gap: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 30px;
 }
 
 .tab-link {
-    padding: 10px 20px;
+    padding: 10px 5px;
     cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--gray);
+    border: none; background: none;
+    font-size: 1rem; font-weight: 500; font-family: 'Outfit', sans-serif;
+    color: var(--text-muted);
     position: relative;
-    border-bottom: 3px solid transparent;
     transition: var(--transition);
 }
 
-.tab-link.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
+.tab-link::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 3px;
+    background: var(--gradient-main); transition: var(--transition);
+    border-radius: 3px 3px 0 0;
 }
 
-.tab-content {
-    display: none;
-}
+.tab-link:hover { color: #fff; }
+.tab-link.active { color: #fff; }
+.tab-link.active::after { width: 100%; }
 
-.tab-content.active {
-    display: block;
-}
+.tab-content { display: none; animation: fadeIn 0.4s ease; }
+.tab-content.active { display: block; }
 
+/* --- BOOKING CARD --- */
 .booking-card {
-    background: #fff;
-    padding: 20px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+    padding: 25px;
     margin-bottom: 20px;
-    border: 1px solid var(--light-gray);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 20px;
+    transition: var(--transition);
 }
 
-.booking-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.booking-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(30, 41, 59, 0.9);
 }
+
+.booking-info { display: flex; align-items: center; gap: 15px; }
 
 .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1rem;
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, #334155, #1e293b);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-.details h4 {
-    margin: 0;
-    font-weight: 600;
-}
+.details h4 { margin: 0 0 5px; font-size: 1.1rem; color: #fff; }
+.details p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
 
-.details p {
-    margin: 0;
-    color: var(--gray);
-    font-size: 0.9rem;
-}
-
-.booking-actions {
-    text-align: right;
+/* Actions & Status */
+.booking-actions { 
+    display: flex; flex-direction: column; align-items: flex-end; gap: 10px; 
 }
 
 .status {
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 50px;
-    font-size: 0.8rem;
+    font-weight: 600; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem;
+    display: inline-flex; align-items: center; gap: 5px;
 }
 
 .status-confirmed {
-    color: #0072ff;
-    background: rgba(0, 114, 255, 0.1);
+    color: #34d399; background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
 }
 
 .status-completed {
-    color: var(--gray);
-    background: var(--light-gray);
+    color: var(--text-muted); background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.star-rating {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.btn-chat {
+    padding: 8px 16px; border: none; border-radius: 50px;
+    background: rgba(16, 185, 129, 0.2); color: #34d399;
+    font-weight: 600; cursor: pointer; transition: var(--transition);
+    font-size: 0.9rem; text-decoration: none;
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
+.btn-chat:hover {
+    background: rgba(16, 185, 129, 0.3); transform: translateY(-2px);
+}
+
+/* Star Rating */
+.star-rating { display: flex; align-items: center; gap: 12px; }
+.stars { display: flex; gap: 5px; }
 
 .star-rating .stars i {
-    font-size: 1.2rem;
-    color: var(--light-gray);
-    cursor: pointer;
-    transition: color 0.2s;
+    font-size: 1.2rem; color: rgba(255, 255, 255, 0.2);
+    cursor: pointer; transition: color 0.2s, transform 0.2s;
 }
 
 .star-rating .stars i:hover,
 .star-rating .stars i.hover {
-    color: var(--warning);
+    color: var(--warning); transform: scale(1.1);
 }
+/* Applied style via JS */
+.fa-star.fas { color: var(--warning); } 
 
 .btn-award {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    background: var(--primary);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .2s;
-    font-size: 0.9rem;
+    padding: 6px 16px; border: none; border-radius: 6px;
+    background: var(--gradient-main); color: #fff;
+    font-weight: 600; cursor: pointer; transition: var(--transition);
+    font-size: 0.85rem;
 }
-
-.btn-award:hover {
-    background: var(--secondary);
-}
-
-.btn-chat {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    background: #2ecc71;
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .2s;
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.btn-chat:hover {
-    background: #27ae60;
-}
+.btn-award:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3); }
 
 .awarded {
-    font-weight: 600;
-    color: var(--warning);
+    font-weight: 600; color: var(--warning); font-size: 0.9rem;
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(245, 158, 11, 0.1); padding: 5px 12px; border-radius: 8px;
 }
 
+/* Empty State */
 .empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray);
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+    background: rgba(255,255,255,0.02); border-radius: var(--border-radius);
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 600px) {
+    .booking-card { flex-direction: column; align-items: flex-start; }
+    .booking-actions { align-items: flex-start; width: 100%; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;}
+    .booking-actions { flex-direction: row; justify-content: space-between; }
 }
 </style>
 </head>
 <body>
     <header>
-        <div class="logo"><i class="fas fa-dumbbell"></i></div>
-        <nav>
-            <a href="{% if user.role == 'learner' %}{% url 'learner_dash' %}{% else %}{% url 'mentor_dash' %}{% endif %}">Dashboard</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </nav>
+        <div class="header-container">
+            <a href="#" class="logo"><i class="fas fa-dumbbell"></i><span>CampusFit</span></a>
+            <nav>
+                <a href="{% if user.role == 'learner' %}{% url 'learner_dash' %}{% else %}{% url 'mentor_dash' %}{% endif %}">
+                    <i class="fas fa-columns"></i> Dashboard
+                </a>
+                <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
     </header>
     
-    <div class="wrap">
+    <div class="container">
+        <h1 class="page-title">My Bookings</h1>
+
         <div class="tabs">
             <button class="tab-link active" onclick="openTab(event, 'upcoming')">Upcoming</button>
             <button class="tab-link" onclick="openTab(event, 'completed')">Completed</button>
@@ -259,16 +259,23 @@ header a:hover {
                                     {{ session.learner.user.full_name }}
                                 {% endif %}
                             </h4>
-                            <p>{{ session.session_date|date:"l, M d, Y" }} at {{ session.session_date|time:"g:i A" }}</p>
+                            <p><i class="far fa-clock"></i> {{ session.session_date|date:"l, M d" }} at {{ session.session_date|time:"g:i A" }}</p>
                         </div>
                     </div>
                     <div class="booking-actions">
-                        <span class="status status-confirmed">{{ session.status|title }}</span>
-                        <a href="{% url 'chat' session.id %}" class="btn-chat"><i class="fas fa-comments"></i> Chat</a>
+                        <span class="status status-confirmed">
+                            <i class="fas fa-circle" style="font-size: 6px;"></i> {{ session.status|title }}
+                        </span>
+                        <a href="{% url 'chat' session.id %}" class="btn-chat">
+                            <i class="fas fa-comments"></i> Chat
+                        </a>
                     </div>
                 </div>
             {% empty %}
-                <p class="empty-state">You have no upcoming sessions.</p>
+                <div class="empty-state">
+                    <i class="far fa-calendar-times" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <p>You have no upcoming sessions scheduled.</p>
+                </div>
             {% endfor %}
         </div>
 
@@ -291,9 +298,10 @@ header a:hover {
                                     {{ session.learner.user.full_name }}
                                 {% endif %}
                             </h4>
-                            <p>{{ session.session_date|date:"l, M d, Y" }}</p>
+                            <p>{{ session.session_date|date:"M d, Y" }}</p>
                         </div>
                     </div>
+                    
                     <div class="booking-actions">
                         {% if user_role == 'learner' %}
                             {% if session.points_awarded == 0 %}
@@ -307,22 +315,25 @@ header a:hover {
                                         <i class="far fa-star" data-value="4"></i>
                                         <i class="far fa-star" data-value="5"></i>
                                     </div>
-                                    <button type="submit" class="btn-award">Award</button>
+                                    <button type="submit" class="btn-award">Submit</button>
                                 </form>
                             {% else %}
                                 <div class="awarded">
-                                    <i class="fas fa-star"></i> Awarded: {{ session.points_awarded }} Points
+                                    <i class="fas fa-star"></i> Awarded: {{ session.points_awarded }}
                                 </div>
                             {% endif %}
                         {% else %}
                             <div class="awarded">
-                                <i class="fas fa-star"></i> Received: {{ session.points_awarded }} Points
+                                <i class="fas fa-star"></i> Received: {{ session.points_awarded }}
                             </div>
                         {% endif %}
                     </div>
                 </div>
             {% empty %}
-                <p class="empty-state">You have no completed sessions yet.</p>
+                <div class="empty-state">
+                    <i class="fas fa-check-double" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <p>No completed sessions found.</p>
+                </div>
             {% endfor %}
         </div>
     </div>
@@ -333,20 +344,28 @@ header a:hover {
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove('active');
             }
             tablinks = document.getElementsByClassName("tab-link");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
             document.getElementById(tabName).style.display = "block";
+            // Small timeout to allow display:block to apply before adding class for animation
+            setTimeout(() => {
+                 document.getElementById(tabName).classList.add('active');
+            }, 10);
+           
             evt.currentTarget.className += " active";
         }
 
+        // Star Rating Logic
         document.querySelectorAll('.stars').forEach(starContainer => {
             const stars = starContainer.querySelectorAll('i');
             const pointsInput = starContainer.closest('form').querySelector('.points-input');
 
             stars.forEach(star => {
+                // Hover Effects
                 star.addEventListener('mouseover', function() {
                     let rating = this.dataset.value;
                     stars.forEach(s => {
@@ -361,13 +380,19 @@ header a:hover {
                     stars.forEach(s => s.classList.remove('hover'));
                 });
 
+                // Click Selection
                 star.addEventListener('click', function() {
                     let rating = this.dataset.value;
                     pointsInput.value = rating;
+                    
                     stars.forEach(s => {
-                        s.className = 'far fa-star'; // Reset
+                        // Reset to outlined star
+                        s.className = 'far fa-star'; 
+                        s.style.color = ''; // Remove inline style if any
+                        
+                        // Fill stars up to rating
                         if (s.dataset.value <= rating) {
-                            s.className = 'fas fa-star'; // Set solid star
+                            s.className = 'fas fa-star'; // Solid star
                             s.style.color = 'var(--warning)';
                         }
                     });

@@ -1,201 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>CampusFit — Your Fitness Companion</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
+/* --- VARIABLES & RESET --- */
 :root {
-    --primary: #4361ee; --secondary: #3a0ca3; --accent: #f72585; --dark: #1a1a2e;
-    --light: #f8f9fa; --gray: #6c757d; --card-bg: #ffffff;
-    --nav-bg: rgba(255, 255, 255, 0.8); --text-dark: #212529; --text-light: #f8f9fa;
-    --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.1);
-    --border-radius: 12px;
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --primary: #4f46e5;      /* Indigo */
+    --primary-light: #818cf8;
+    --secondary: #ec4899;    /* Pink/Magenta */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.3);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
 body {
-    font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--text-dark);
-    line-height: 1.6; overflow-x: hidden;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
+
+/* --- UTILITIES --- */
+a { text-decoration: none; transition: var(--transition); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* --- HEADER --- */
 header {
-    background: var(--nav-bg); padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000;
-    backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1rem 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-.header-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
-.logo { display: flex; align-items: center; gap: 0.5rem; }
-.logo-icon { color: var(--primary); font-size: 1.8rem; }
-.logo-text { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--primary); }
-nav { display: flex; gap: 1.5rem; }
-nav a {
-    color: var(--gray); text-decoration: none; font-weight: 500; font-size: 0.95rem; position: relative;
-    padding: 0.5rem 0; transition: var(--transition);
+.header-container { display: flex; justify-content: space-between; align-items: center; }
+
+.logo { display: flex; align-items: center; gap: 0.8rem; }
+.logo-icon { 
+    color: transparent; 
+    background: var(--gradient-main); 
+    -webkit-background-clip: text; 
+    font-size: 2rem; 
 }
-nav a::after {
-    content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 50%;
-    transform: translateX(-50%); background: var(--primary); transition: width 0.3s ease;
+.logo-text { 
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 800; 
+    font-size: 1.5rem; 
+    color: #fff;
+    letter-spacing: -0.5px;
 }
-nav a:hover { color: var(--primary); }
-nav a:hover::after { width: 100%; }
-.hero-section {
-    min-height: 100vh; display: flex; align-items: center;
-    background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+
+nav { display: flex; align-items: center; gap: 2rem; }
+nav a.nav-link {
+    color: var(--text-muted); font-weight: 500; font-size: 0.95rem;
     position: relative;
 }
-.hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 26, 46, 0.6); }
+nav a.nav-link:hover { color: #fff; }
+nav a.nav-link::after {
+    content: ''; position: absolute; width: 0; height: 2px; 
+    bottom: -5px; left: 0; background: var(--gradient-main); 
+    transition: width 0.3s ease;
+}
+nav a.nav-link:hover::after { width: 100%; }
+
+/* --- HERO SECTION --- */
+.hero-section {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.15), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.15), transparent 40%);
+    padding-top: 80px; /* Offset fixed header */
+}
+
+/* Abstract Background Shapes */
+.hero-bg-shape {
+    position: absolute;
+    width: 300px; height: 300px;
+    background: var(--primary);
+    filter: blur(120px);
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: -1;
+}
+.shape-1 { top: 10%; left: -10%; }
+.shape-2 { bottom: 10%; right: -10%; background: var(--secondary); }
+
 .hero-content {
-    position: relative; z-index: 1; max-width: 1200px; margin: 0 auto;
-    padding: 4rem 2rem; color: var(--text-light); text-align: center;
+    text-align: center; max-width: 900px; padding: 2rem;
+    z-index: 1;
 }
-.hero-title { font-family: 'Montserrat', sans-serif; font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,.3); animation: fadeInUp 1s ease forwards; }
-.hero-subtitle { font-size: 1.2rem; max-width: 700px; margin: 0 auto 2.5rem; opacity: 0; animation: fadeInUp 1s ease 0.2s forwards; }
-.cta-buttons { display: flex; justify-content: center; gap: 1.5rem; opacity: 0; animation: fadeInUp 1s ease 0.4s forwards; }
+
+.hero-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp 0.8s ease-out;
+}
+
+.hero-title span {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem; color: var(--text-muted); margin: 0 auto 3rem; 
+    max-width: 650px; animation: fadeUp 1s ease-out 0.2s backwards;
+}
+
+.cta-buttons { display: flex; justify-content: center; gap: 1rem; animation: fadeUp 1s ease-out 0.4s backwards; }
+
+/* Buttons */
 .btn {
-    display: inline-block; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none;
-    transition: var(--transition); border: none; cursor: pointer; box-shadow: var(--shadow-sm);
+    padding: 1rem 2.5rem; border-radius: 50px; font-weight: 600; 
+    cursor: pointer; transition: var(--transition);
+    display: inline-flex; align-items: center; gap: 0.5rem;
 }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3); background: var(--secondary); }
-.btn-secondary { background: transparent; color: var(--text-light); border: 2px solid var(--text-light); }
-.btn-secondary:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); }
-.section { padding: 5rem 2rem; }
-.section-title { text-align: center; margin-bottom: 3.5rem; }
-.section-title h2 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--dark); }
-.section-title p { color: var(--gray); max-width: 600px; margin: 0 auto; }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+
+.btn-primary {
+    background: var(--gradient-main);
+    color: #fff; border: none;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+}
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+}
+.btn-sm { padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+
+/* --- FEATURES SECTION --- */
+.section { padding: 6rem 0; position: relative; }
+.section-title { text-align: center; margin-bottom: 4rem; }
+.section-title h2 {
+    font-family: 'Montserrat', sans-serif; font-size: 2.5rem; margin-bottom: 1rem;
+}
+.section-title p { color: var(--text-muted); font-size: 1.1rem; }
+
+.features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 2rem;
+}
+
 .feature-card {
-    background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow-md);
-    transition: var(--transition); text-align: center; border-top: 4px solid transparent;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.5rem 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
 }
-.feature-card:hover { transform: translateY(-10px); border-top-color: var(--primary); }
+
+.feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: var(--gradient-main);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: rgba(30, 41, 59, 0.9);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.feature-card:hover::before { transform: scaleX(1); }
+
 .feature-icon {
-    font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;
-    display: inline-flex; width: 60px; height: 60px; border-radius: 50%;
-    align-items: center; justify-content: center; background: rgba(67, 97, 238, 0.1);
+    width: 70px; height: 70px; margin: 0 auto 1.5rem;
+    background: rgba(79, 70, 229, 0.1);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: var(--primary-light);
+    transition: var(--transition);
 }
-.feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--dark); }
-.feature-card p { color: var(--gray); }
-.how-it-works { background: var(--dark); color: var(--text-light); }
-.how-it-works h2 { color: var(--text-light); }
-.how-it-works .section-title p { color: rgba(255,255,255,0.7); }
-.steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; max-width: 1200px; margin: 3rem auto 0; }
-.step {
-    flex: 1; min-width: 250px; text-align: center; position: relative; padding: 2rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05); border-radius: var(--border-radius); transition: var(--transition);
+.feature-card:hover .feature-icon {
+    background: var(--gradient-main); color: #fff; transform: rotateY(180deg);
 }
-.step:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-5px); }
+
+.feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+.feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* --- HOW IT WORKS --- */
+.how-it-works { background: rgba(0,0,0,0.2); }
+.steps-container {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;
+    position: relative;
+    margin-top: 3rem;
+}
+/* Dotted Line connector (Desktop only) */
+@media(min-width: 992px) {
+    .steps-container::after {
+        content: ''; position: absolute; top: 40px; left: 15%; right: 15%;
+        height: 2px; border-top: 2px dashed rgba(255,255,255,0.1); z-index: 0;
+    }
+}
+
+.step-card {
+    flex: 1; min-width: 280px; max-width: 350px;
+    text-align: center; z-index: 1;
+}
+
 .step-number {
-    display: inline-block; width: 50px; height: 50px; background: var(--primary); color: var(--text-light);
-    border-radius: 50%; font-weight: 700; font-size: 1.5rem; line-height: 50px; margin-bottom: 1.5rem;
+    width: 80px; height: 80px; margin: 0 auto 1.5rem;
+    background: var(--dark-bg);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 800; color: #fff;
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.2);
+    transition: var(--transition);
 }
-.step h3 { font-size: 1.3rem; margin-bottom: 1rem; }
-.step p { opacity: 0.8; }
-.cta-section { padding: 5rem 2rem; background: var(--gradient); color: var(--text-light); text-align: center; }
-.cta-content h2 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
-.cta-content p { margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9; }
-footer { background: var(--dark); color: var(--text-light); padding: 3rem 2rem; text-align: center; }
-.copyright { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); opacity: 0.7; font-size: 0.9rem; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.step-card:hover .step-number {
+    background: var(--gradient-main); border-color: transparent;
+    transform: scale(1.1);
+}
+
+.step-card h3 { margin-bottom: 1rem; color: #fff; }
+.step-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* --- CTA SECTION --- */
+.cta-section {
+    background: linear-gradient(180deg, var(--dark-bg) 0%, #1e1b4b 100%);
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.cta-box {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2rem; padding: 4rem 2rem;
+    backdrop-filter: blur(10px);
+}
+.cta-box h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+
+/* --- FOOTER --- */
+footer {
+    background: #020617; padding: 4rem 0 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+.footer-logo { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem; display: inline-block; }
+.footer-socials { margin-bottom: 2rem; }
+.footer-socials a {
+    color: var(--text-muted); font-size: 1.2rem; margin: 0 10px;
+    transition: var(--transition);
+}
+.footer-socials a:hover { color: var(--primary-light); transform: translateY(-3px); }
+.copyright { color: rgba(255,255,255,0.3); font-size: 0.9rem; }
+
+/* --- ANIMATIONS --- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
+    .hero-title { font-size: 2.8rem; }
     .header-container { flex-direction: column; gap: 1rem; }
-    nav { flex-wrap: wrap; justify-content: center; }
-    .hero-title { font-size: 2.5rem; }
-    .cta-buttons { flex-direction: column; gap: 1rem; align-items: center; }
-    .btn { width: 80%; max-width: 300px; }
+    nav { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+    .cta-buttons { flex-direction: column; align-items: center; width: 100%; }
+    .btn { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
+
 <header>
-    <div class="header-container">
-        <a href="{% url 'home' %}" class="logo" style="text-decoration: none;">
+    <div class="container header-container">
+        <a href="{% url 'home' %}" class="logo">
             <i class="fas fa-dumbbell logo-icon"></i>
             <span class="logo-text">CampusFit</span>
         </a>
         <nav>
-            <a href="#features">Features</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="{% url 'sign' %}" class="btn btn-primary btn-sm">Sign Up</a>
-            <a href="{% url 'login_view' %}" class="btn btn-secondary btn-sm">Login</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <div style="display:flex; gap:10px; margin-left:10px;">
+                <a href="{% url 'sign' %}" class="btn btn-primary btn-sm">Sign Up</a>
+                <a href="{% url 'login_view' %}" class="btn btn-secondary btn-sm">Login</a>
+            </div>
         </nav>
     </div>
 </header>
 
 <section class="hero-section">
+    <div class="hero-bg-shape shape-1"></div>
+    <div class="hero-bg-shape shape-2"></div>
+
     <div class="hero-content">
-        <h1 class="hero-title">Transform Your Campus Fitness Journey</h1>
-        <p class="hero-subtitle">Connect with skilled senior mentors, book personalized micro-sessions, and achieve your fitness goals safely and effectively.</p>
+        <h1 class="hero-title">Fitness. Community. <br> <span>Excellence.</span></h1>
+        <p class="hero-subtitle">
+            Connect with senior mentors, book flexible micro-sessions, and achieve your goals right here on campus. 
+            Safe, structured, and student-focused.
+        </p>
         <div class="cta-buttons">
-            <a href="{% url 'sign' %}" class="btn btn-primary">Get Started Now</a>
-            <a href="{% url 'login_view' %}" class="btn btn-secondary">Member Login</a>
+            <a href="{% url 'sign' %}" class="btn btn-primary">
+                Get Started <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="{% url 'login_view' %}" class="btn btn-secondary">
+                <i class="fas fa-user"></i> Member Login
+            </a>
         </div>
     </div>
 </section>
 
 <section id="features" class="section">
-    <div class="section-title">
-        <h2>Why Choose CampusFit?</h2>
-        <p>A platform built by students, for students, to make fitness accessible and safe for everyone on campus.</p>
-    </div>
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-users"></i></div>
-            <h3>Peer-to-Peer Mentorship</h3>
-            <p>Learn from skilled senior students who understand your schedule and challenges. It's relatable, effective, and builds community.</p>
+    <div class="container">
+        <div class="section-title">
+            <h2>Why Choose CampusFit?</h2>
+            <p>We bridge the gap between academic life and physical wellness.</p>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
-            <h3>Flexible Micro-Sessions</h3>
-            <p>Book short, focused training sessions that fit perfectly between classes. No long-term commitments required.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-medal"></i></div>
-            <h3>Reputation System</h3>
-            <p>Reward great mentors with points. Our leaderboard fosters a healthy, competitive, and quality-driven community.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-users"></i></div>
+                <h3>Peer Mentorship</h3>
+                <p>Learn from seniors who know the drill. Personalized guidance from students who understand your schedule.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Micro-Sessions</h3>
+                <p>Short on time? Book 20-30 minute focused sessions between classes. No rigid schedules.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Gamified Growth</h3>
+                <p>Earn reputation points, climb the leaderboard, and build a trusted profile within the community.</p>
+            </div>
         </div>
     </div>
 </section>
 
 <section id="how-it-works" class="section how-it-works">
-    <div class="section-title">
-        <h2>How It Works</h2>
-        <p>Get started in just three simple steps.</p>
-    </div>
-    <div class="steps">
-        <div class="step">
-            <div class="step-number">1</div>
-            <h3>Sign Up & Set Goal</h3>
-            <p>Create your free account in seconds and tell us what you want to achieve.</p>
+    <div class="container">
+        <div class="section-title">
+            <h2>Your Journey Starts Here</h2>
+            <p>Three simple steps to a healthier campus life.</p>
         </div>
-        <div class="step">
-            <div class="step-number">2</div>
-            <h3>Browse & Book</h3>
-            <p>Find the perfect mentor based on their specialty and reputation points, then book a session.</p>
-        </div>
-        <div class="step">
-            <div class="step-number">3</div>
-            <h3>Train & Rate</h3>
-            <p>Meet your mentor for your session, learn, and award them points for their guidance.</p>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Create Account</h3>
+                <p>Sign up in seconds using your student ID and set your primary fitness goals.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Find a Mentor</h3>
+                <p>Browse profiles, check ratings, and book a slot that fits your free period.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Train & Level Up</h3>
+                <p>Attend your session, learn correct forms, and rate your experience.</p>
+            </div>
         </div>
     </div>
 </section>
 
 <section class="section cta-section">
-    <div class="cta-content">
-        <h2>Ready to Begin Your Fitness Journey?</h2>
-        <p>Join the CampusFit community today and connect with a mentor who can help you reach your goals.</p>
-        <div class="cta-buttons">
-            <a href="{% url 'sign' %}" class="btn btn-secondary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Sign Up for Free</a>
+    <div class="container">
+        <div class="cta-box">
+            <h2>Ready to Transform?</h2>
+            <p style="margin-bottom: 2rem; opacity: 0.8;">Join hundreds of students making fitness a priority today.</p>
+            <a href="{% url 'sign' %}" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                Join CampusFit Now
+            </a>
         </div>
     </div>
 </section>
 
 <footer>
-    <div class="copyright">
-        &copy; 2025 CampusFit. All Rights Reserved.
+    <div class="container">
+        <div class="footer-logo">CampusFit</div>
+        <div class="footer-socials">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 CampusFit Project. Built for Students.
+        </div>
     </div>
 </footer>
 

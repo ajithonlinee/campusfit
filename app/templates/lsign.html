@@ -1,63 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Learner Signup - CampusFit</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
+/* --- VARIABLES --- */
 :root {
-  --primary: #00c6ff; --secondary: #0072ff; --dark: #1a1a2e; --light: #f8f9fa; --gray: #6c757d;
-  --light-gray: #e9ecef; --danger: #dc3545; --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  --shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    --primary: #4f46e5;      /* Indigo */
+    --secondary: #ec4899;    /* Pink */
+    --dark-bg: #0f172a;      /* Deep Slate */
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --input-bg: rgba(15, 23, 42, 0.6);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --danger: #ef4444;
+    --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Poppins', sans-serif; background: var(--light); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;
-  background-image: radial-gradient(circle at 10% 20%, rgba(0, 198, 255, 0.05) 0%, rgba(0, 198, 255, 0.05) 90%), radial-gradient(circle at 90% 80%, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.05) 90%);
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
-.signup-container { background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); width: 100%; max-width: 900px; display: grid; grid-template-columns: 1fr 1fr; animation: fadeInUp 0.8s ease; }
-.illustration-section { background: var(--gradient); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; position: relative; overflow: hidden; }
-.illustration-section::before, .illustration-section::after { content: ''; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.1); }
-.illustration-section::before { top: -50px; right: -50px; width: 200px; height: 200px; }
-.illustration-section::after { bottom: -80px; left: -30px; width: 250px; height: 250px; }
-.illustration-img { width: 100%; max-width: 300px; margin: 20px 0; }
-.illustration-content { position: relative; z-index: 2; }
-.illustration-content h1 { font-size: 2rem; margin-bottom: 15px; }
-.illustration-content p { opacity: 0.9; margin-bottom: 30px; font-size: 0.95rem; }
-.form-section { padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
-.form-header { text-align: center; margin-bottom: 30px; }
-.form-header h2 { font-size: 1.8rem; color: var(--dark); margin-bottom: 10px; }
-.form-header p { color: var(--gray); font-size: 0.95rem; }
+
+/* Background Effects */
+body::before, body::after {
+    content: ''; position: absolute; width: 400px; height: 400px;
+    border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: -1;
+}
+body::before { background: var(--primary); top: -100px; left: -100px; }
+body::after { background: var(--secondary); bottom: -100px; right: -100px; }
+
+/* --- CONTAINER --- */
+.signup-container {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: fadeUp 0.6s ease-out;
+}
+
+/* --- LEFT PANEL --- */
+.info-section {
+    flex: 1;
+    background: var(--gradient-main);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-section::before {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.info-content { z-index: 2; position: relative; }
+.info-content h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
+.info-content p { opacity: 0.9; font-size: 1.1rem; margin-bottom: 2rem; }
+
+.benefits-list { list-style: none; margin-top: 1rem; }
+.benefits-list li { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; font-size: 1rem; }
+.benefits-list i { background: rgba(255,255,255,0.2); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+/* --- RIGHT PANEL (FORM) --- */
+.form-section {
+    flex: 1.2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header { text-align: center; margin-bottom: 25px; }
+.form-header h2 { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; margin-bottom: 5px; }
+.form-header p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* Form Styling */
 .signup-form { display: flex; flex-direction: column; gap: 15px; }
 .form-group { position: relative; }
-.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--dark); font-weight: 500; }
-.form-control, input[type="text"], input[type="email"], input[type="password"], select { width: 100%; padding: 12px 15px; border: 1px solid var(--light-gray); border-radius: 8px; font-size: 0.95rem; font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
-.btn { padding: 12px; border-radius: 8px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; background: var(--primary); color: white; margin-top: 10px; }
-.login-link { text-align: center; margin-top: 20px; font-size: 0.9rem; }
-.login-link a { color: var(--primary); text-decoration: none; font-weight: 500; }
-.alert { padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
-.alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-.errorlist { list-style-type: none; padding: 0; color: var(--danger); font-size: 0.85rem; margin-top: 5px; }
-.password-toggle { position: absolute; right: 15px; top: 68%; transform: translateY(-50%); cursor: pointer; color: var(--gray); }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 768px) { .signup-container { grid-template-columns: 1fr; } .illustration-section { display: none; } }
+
+.form-group label {
+    display: block; margin-bottom: 8px; font-size: 0.9rem;
+    color: var(--text-muted); font-weight: 500;
+}
+
+/* Universal Input Styling for Django Widgets & Custom Inputs */
+.form-control, 
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+select {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: white;
+    transition: var(--transition);
+}
+
+/* Remove default appearance for selects to style uniformly */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.8rem auto;
+}
+/* Style dropdown options (sadly browser dependant, but background helps) */
+select option { background-color: var(--dark-bg); color: white; }
+
+.form-control:focus,
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.password-toggle {
+    position: absolute; right: 15px; top: 42px;
+    cursor: pointer; color: var(--text-muted);
+    transition: color 0.3s;
+}
+.password-toggle:hover { color: #fff; }
+
+.btn-primary {
+    width: 100%; padding: 14px; margin-top: 10px;
+    border: none; border-radius: 50px;
+    background: var(--gradient-main);
+    color: white; font-size: 1rem; font-weight: 600;
+    cursor: pointer; transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+}
+
+.login-link { text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); }
+.login-link a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.login-link a:hover { text-decoration: underline; }
+
+/* Alerts */
+.alert { padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; }
+.alert-error {
+    background: rgba(239, 68, 68, 0.1); color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.errorlist { list-style: none; color: #fca5a5; font-size: 0.85rem; margin-top: 5px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+    .signup-container { flex-direction: column; }
+    .info-section { padding: 30px; }
+    .info-content h1 { font-size: 2rem; }
+    .form-section { padding: 30px 20px; }
+}
 </style>
 </head>
 <body>
+
   <div class="signup-container">
-    <div class="illustration-section">
-      <div class="illustration-content">
-        <h1>Start Your Fitness Journey</h1>
-        <p>Join thousands of students achieving their fitness goals with personalized mentorship</p>
-        <img src="https://illustrations.popsy.co/amber/student-woman.svg" alt="Fitness Illustration" class="illustration-img">
-        <p>Already have an account? <a href="{% url 'login_view' %}" style="color: white; text-decoration: underline;">Login here</a></p>
+    
+    <div class="info-section">
+      <div class="info-content">
+        <h1>Start Your <br>Fitness Journey</h1>
+        <p>Join the CampusFit community and transform your university life.</p>
+        
+        <ul class="benefits-list">
+          <li><i class="fas fa-check"></i> Personalized Goal Tracking</li>
+          <li><i class="fas fa-check"></i> Connect with Senior Mentors</li>
+          <li><i class="fas fa-check"></i> Flexible Micro-Sessions</li>
+          <li><i class="fas fa-check"></i> Exclusive Campus Leaderboard</li>
+        </ul>
       </div>
     </div>
     
     <div class="form-section">
       <div class="form-header">
         <h2>Create Learner Account</h2>
-        <p>Fill in your details to get started</p>
+        <p>Enter your details to get started</p>
       </div>
       
       {% if form.non_field_errors %}
@@ -78,14 +230,14 @@ body { font-family: 'Poppins', sans-serif; background: var(--light); display: fl
         </div>
         
         <div class="form-group">
-          <label for="{{ form.email.id_for_label }}">Email</label>
+          <label for="{{ form.email.id_for_label }}">Email Address</label>
           {{ form.email }}
           {{ form.email.errors }}
         </div>
         
         <div class="form-group">
           <label for="id_roll_number">College Roll Number</label>
-          <input type="text" id="id_roll_number" name="roll_number" class="form-control" placeholder="Enter your roll number">
+          <input type="text" id="id_roll_number" name="roll_number" class="form-control" placeholder="e.g. 21BCS101">
         </div>
         
         <div class="form-group">
@@ -114,7 +266,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--light); display: fl
           {{ form.password2.errors }}
         </div>
         
-        <button type="submit" class="btn btn-primary">Create Account</button>
+        <button type="submit" class="btn-primary">Create Account</button>
       </form>
       
       <p class="login-link">Already have an account? <a href="{% url 'login_view' %}">Login here</a></p>
@@ -123,6 +275,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--light); display: fl
 
   <script>
     const togglePassword = document.querySelector('#togglePassword');
+    // Note: Assuming Django renders the password input with id="id_password"
     const password = document.querySelector('#id_password');
     
     if (togglePassword && password) {
@@ -133,5 +286,6 @@ body { font-family: 'Poppins', sans-serif; background: var(--light); display: fl
         });
     }
   </script>
+
 </body>
 </html>

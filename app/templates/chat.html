@@ -4,46 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with {{ other_user.full_name }} - CampusFit</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* --- VARIABLES --- */
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --light: #f8fafc;
-            --dark: #1a1a2e;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --me-msg: #dcf8c6; /* Greenish for me */
-            --other-msg: #ffffff; /* White for them */
+            --primary: #4f46e5;      /* Indigo */
+            --secondary: #ec4899;    /* Pink */
+            --dark-bg: #0f172a;      /* Deep Slate */
+            --chat-bg: #1e293b;      /* Slightly lighter slate for chat area */
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+            --border-radius: 20px;
         }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--light);
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
             margin: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Prevent body scroll, handle in chat container */
         }
+
+        /* --- HEADER --- */
         header {
-            background: #fff;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
             padding: 15px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
-        .header-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
+
+        .header-left { display: flex; align-items: center; gap: 15px; }
+
         .back-btn {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 500;
+            color: var(--text-muted); text-decoration: none; font-size: 1.2rem;
+            transition: 0.3s; padding: 5px;
         }
+        .back-btn:hover { color: #fff; transform: translateX(-3px); }
+
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+        }
+        
+        .user-status {
+            width: 10px; height: 10px; background: #10b981; border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        /* --- CHAT AREA --- */
         .chat-container {
             flex: 1;
             padding: 20px;
@@ -51,79 +72,121 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background-color: #e5ddd5;
+            background-color: var(--dark-bg);
+            /* Subtle pattern */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            scroll-behavior: smooth;
         }
+
+        /* Scrollbar Styling */
+        .chat-container::-webkit-scrollbar { width: 6px; }
+        .chat-container::-webkit-scrollbar-track { background: transparent; }
+        .chat-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
         .message-wrapper {
-            max-width: 70%;
-            padding: 10px 15px;
-            border-radius: 10px;
+            max-width: 75%;
+            padding: 12px 18px;
             position: relative;
             word-wrap: break-word;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease;
         }
-        /* Styles for MY messages (Right side) */
+
+        /* SENT Messages (Me) */
         .message-wrapper.sent {
-            align-self: flex-end; /* Pushes to right */
-            background-color: var(--me-msg);
-            border-bottom-right-radius: 0;
+            align-self: flex-end;
+            background: var(--gradient-main);
+            color: #fff;
+            border-radius: 18px 18px 4px 18px; /* Sharp bottom-right */
         }
-        /* Styles for OTHER messages (Left side) */
+
+        /* RECEIVED Messages (Them) */
         .message-wrapper.received {
-            align-self: flex-start; /* Pushes to left */
-            background-color: var(--other-msg);
-            border-bottom-left-radius: 0;
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: var(--text-main);
+            border-radius: 18px 18px 18px 4px; /* Sharp bottom-left */
         }
-        .meta {
-            font-size: 0.7rem;
-            color: #999;
-            text-align: right;
-            margin-top: 5px;
-        }
+
         .sender-name {
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 3px;
-            color: var(--secondary);
+            font-size: 0.75rem; font-weight: 700; margin-bottom: 4px;
+            color: var(--secondary); opacity: 0.9;
         }
+        
+        /* Time Stamp */
+        .meta {
+            font-size: 0.7rem; margin-top: 5px; text-align: right;
+            opacity: 0.7; font-weight: 500;
+        }
+        .sent .meta { color: rgba(255,255,255,0.9); }
+        .received .meta { color: var(--text-muted); }
+
+        /* --- INPUT AREA --- */
         .input-area {
-            background: #fff;
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            display: flex; gap: 10px; align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         #chat-message-input {
             flex: 1;
-            padding: 12px;
-            border: 1px solid var(--light-gray);
-            border-radius: 25px;
+            padding: 14px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
             outline: none;
-            font-family: inherit;
-        }
-        #chat-message-submit {
-            background: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border: none;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.3s;
+        }
+
+        #chat-message-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+
+        #chat-message-submit {
+            background: var(--gradient-main);
+            color: #fff; border: none;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 48px; height: 48px;
             cursor: pointer;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
         }
+
         #chat-message-submit:hover {
-            background: var(--secondary);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+
     <header>
-        <a href="{% url 'booking' %}" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
-        <div class="header-title">Chat with {{ other_user.full_name }}</div>
-        <div style="width: 50px;"></div>
+        <div class="header-left">
+            <a href="{% url 'booking' %}" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="header-title">
+                <div class="user-status"></div>
+                {{ other_user.full_name }}
+            </div>
+        </div>
+        <div style="color: var(--text-muted);"><i class="fas fa-ellipsis-v"></i></div>
     </header>
 
     <div class="chat-container" id="chat-log">
@@ -139,16 +202,18 @@
     </div>
 
     <div class="input-area">
-        <input id="chat-message-input" type="text" placeholder="Type a message...">
+        <input id="chat-message-input" type="text" placeholder="Type your message..." autocomplete="off">
         <button id="chat-message-submit" type="button"><i class="fas fa-paper-plane"></i></button>
     </div>
 
     {{ booking.id|json_script:"booking-id" }}
     {{ other_user.id|json_script:"receiver-id" }}
-    {{ request.user.id|json_script:"user-id" }} <script>
+    {{ request.user.id|json_script:"user-id" }}
+
+    <script>
         const bookingId = JSON.parse(document.getElementById('booking-id').textContent);
         const receiverId = JSON.parse(document.getElementById('receiver-id').textContent);
-        const currentUserId = JSON.parse(document.getElementById('user-id').textContent); // <--- NEW
+        const currentUserId = JSON.parse(document.getElementById('user-id').textContent);
 
         const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
         const chatSocket = new WebSocket(
@@ -166,11 +231,11 @@
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message-wrapper');
             
-            // FIX: Check who sent the message
+            // Logic to determine style based on sender
             if (data.sender_id === currentUserId) {
-                messageDiv.classList.add('sent'); // My message -> Right
+                messageDiv.classList.add('sent');
             } else {
-                messageDiv.classList.add('received'); // Their message -> Left
+                messageDiv.classList.add('received');
             }
 
             const senderDiv = document.createElement('div');
@@ -183,9 +248,11 @@
             
             const metaDiv = document.createElement('div');
             metaDiv.classList.add('meta');
-            metaDiv.textContent = data.timestamp;
+            // Simple timestamp for new messages
+            const now = new Date();
+            metaDiv.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // Only show name if it's NOT me
+            // Only append name if received
             if (data.sender_id !== currentUserId) {
                 messageDiv.appendChild(senderDiv);
             }
@@ -224,6 +291,7 @@
             }
         };
         
+        // Auto scroll to bottom on load
         const chatLog = document.querySelector('#chat-log');
         chatLog.scrollTop = chatLog.scrollHeight;
     </script>
